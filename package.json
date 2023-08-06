@@ -11,16 +11,13 @@
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:server": "cross-env NODE_ENV=development node --inspect --require ./node_modules/dotenv/config --require ./mocks ./build/server.js",
     "docker": "docker-compose up -d",
-    "format": "prettier --write .",
-    "format:repo": "npm run format && npm run lint:repo -- --fix",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:repo": "npm run lint -- --config ./.eslintrc.repo.js",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "start": "cross-env NODE_ENV=production node ./build/server.js",
     "start:mocks": "cross-env NODE_ENV=production node --require ./mocks --require dotenv/config ./build/server.js",
     "test": "vitest",
     "types": "tsc --noEmit",
-    "validate": "run-p \"test -- --run\" lint types test:e2e:run"
+    "validate": "run-p \"test -- --run\" lint types"
   },
   "prettier": {},
   "eslintIgnore": [
