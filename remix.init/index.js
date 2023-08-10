@@ -190,10 +190,6 @@ const main = async ({isTypeScript, packageManager, rootDirectory}) => {
     fs.writeFile(ENV_PATH, newEnv),
     fs.writeFile(DOCKERFILE_PATH, newDockerfile),
     packageJson.save(),
-    fs.copyFile(
-      path.join(rootDirectory, 'remix.init', 'gitignore'),
-      path.join(rootDirectory, '.gitignore'),
-    ),
     fs.rm(path.join(rootDirectory, '.github', 'ISSUE_TEMPLATE'), {
       recursive: true,
     }),
