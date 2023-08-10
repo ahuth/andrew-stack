@@ -49,4 +49,4 @@ COPY --from=build /myapp/public /myapp/public
 
 ADD . .
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "prod"]
