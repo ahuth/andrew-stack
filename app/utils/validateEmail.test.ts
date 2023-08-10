@@ -1,6 +1,6 @@
-import {validateEmail} from './utils';
+import {validateEmail} from './validateEmail';
 
-test('validateEmail returns false for non-emails', () => {
+it('returns false for non-emails', () => {
   expect(validateEmail(undefined)).toBe(false);
   expect(validateEmail(null)).toBe(false);
   expect(validateEmail('')).toBe(false);
@@ -8,6 +8,6 @@ test('validateEmail returns false for non-emails', () => {
   expect(validateEmail('n@')).toBe(false);
 });
 
-test('validateEmail returns true for emails', () => {
+it('returns true for emails', () => {
   expect(validateEmail('kody@example.com')).toBe(true);
 });
