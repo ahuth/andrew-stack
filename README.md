@@ -1,96 +1,139 @@
 # Remix Andrew Stack
 
-![The Remix Blues Stack](https://repository-images.githubusercontent.com/461012689/37d5bd8b-fa9c-4ab0-893c-f0a199d5012d)
+<!-- DELETE-START -->
+[Remix](https://remix.run) template for creating full-stack apps.
+<!-- DELETE-END -->
 
-Learn more about [Remix Stacks](https://remix.run/stacks).
+## Table of contents
 
+<!-- DELETE-START -->
+- [Using this template](#using-this-template)
+- [What's in the template](#what-s-in-the-template)<!-- DELETE-END -->
+- [Requirements](#requirements)
+- [Setup](#setup)
+- [Development](#development)
+- [Troubleshooting](#troubleshooting)
+
+<!-- DELETE-START -->
+## Using this template
+
+Create an app from this template by running:
+
+```sh
+npx --yes create-remix@latest \
+  --install \
+  --typescript \
+  --template ahuth/andrew-stack
 ```
-npx create-remix@latest --template remix-run/blues-stack
-```
 
-## What's in the stack
+## What's in the template
 
-- [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
-- Email/Password Authentication with [cookie-based sessions](https://remix.run/utils/sessions#creatememorysessionstorage)
-- Database ORM with [Prisma](https://prisma.io)
-- Styling with [Tailwind](https://tailwindcss.com/)
-- Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
-- Code formatting with [Prettier](https://prettier.io)
-- Linting with [ESLint](https://eslint.org)
-- Static Types with [TypeScript](https://typescriptlang.org)
+- Email/Password authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
+- [Conform](https://conform.guide/) for Progressively Enhanced and fully type safe forms
+- [ESLint](https://eslint.org) for linting
+- [GitHub Actions](https://github.com/features/actions) for CI
+- [Playwright](https://playwright.dev/) for [Application tests](/tests/application/README.md) (Remix Integration tests)
+- [PostgreSQL](https://www.postgresql.org/) database
+- [Prettier](https://prettier.io) for code formatting
+- [Prisma](https://prisma.io) database ORM
+- [Sentry](https://docs.sentry.io/platforms/javascript/guides/remix/) for error reporting (on both client and server)
+- [Storybook](https://storybook.js.org/) component explorer
+- [Tailwind](https://tailwindcss.com/) for styling ❤️
+- [TypeScript](https://typescriptlang.org) for type safety!
+- [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com) for unit testing
+- [Zod](https://zod.dev/) for Runtime schema validation
+<!-- DELETE-END -->
 
-Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --template your/repo`! Make it your own.
+## Requirements
 
-## Development
+- [Docker](https://www.docker.com/)
+- [nodenv](https://github.com/nodenv/nodenv)
 
-- First run this stack's `remix.init` script and commit the changes it makes to your project.
+## Setup
+
+After cloning the repo, setup the app by following these steps.
+
+- Install the required Node version
 
   ```sh
-  npx remix init
-  git init # if you haven't already
-  git add .
-  git commit -m "Initialize project"
+  nodenv install
   ```
 
-- Start the Postgres Database in [Docker](https://www.docker.com/get-started):
+- Install dependencies
+
+  ```sh
+  npm install
+  ```
+
+- Create a `.env` file for local development
+
+  ```sh
+  cp .env.example .env
+  ```
+
+- Start any required Docker services, such as Postgres:
 
   ```sh
   npm run docker
   ```
 
-  > **Note:** The npm script will complete while Docker sets up the container in the background. Ensure that Docker has finished and your container is running before proceeding.
+  > **Note:** Ensure that Docker has finished and your containers are running before proceeding.
 
-- Initial setup:
+- Setup the database:
 
   ```sh
   npm run setup
   ```
 
-- Run the first build:
+- Run the build, which generates the App's Node server:
 
   ```sh
   npm run build
   ```
 
-- Start dev server:
+## Development
+
+- Start the app in development mode, rebuilding assets on file change:
 
   ```sh
-  npm run dev
+  npm start
   ```
 
-This starts your app in development mode, rebuilding assets on file changes.
+- Once running, visit:
 
-The database seed script creates a new user with some data you can use to get started:
+  ```
+  https://localhost:3000
+  ```
 
-- Email: `rachel@remix.run`
-- Password: `racheliscool`
+- By default there is a new user with some data you can use to get started:
+  - Email: jane@example.com
+  - Password: password
 
-### Relevant code:
+- Manage the database with the Prisma CLI. See [Developing with Prisma Migrate](https://www.prisma.io/docs/guides/database/developing-with-prisma-migrate).
 
-This is a pretty simple note-taking app, but it's a good example of how you can build a full stack app with Prisma and Remix. The main functionality is creating users, logging in and out, and creating and deleting notes.
+  Some common operations are:
 
-- creating users, and logging in and out [./app/models/user.server.ts](./app/models/user.server.ts)
-- user sessions, and verifying them [./app/session.server.ts](./app/session.server.ts)
-- creating, and deleting notes [./app/models/note.server.ts](./app/models/note.server.ts)
+  | Goal | Command(s) |
+  | ---- | ---------- |
+  | Apply pending migrations | `npx prisma migrate dev` |
+  | Add a new model | Modify prisma/schema.prisma and run `npx prisma migrate dev` to generate a migration |
+  | Explore the db | `npx prisma studio` |
+  | Reset your db | `npx prisma migrate reset` |
 
-## GitHub Actions
+- Debug server side code by placing a `debugger` in your code, open up Chrome, and go to `chrome://inspect`.
 
-We use GitHub Actions for continuous integration and deployment. Anything that gets into the `main` branch will be deployed to production after running tests/build/etc. Anything in the `dev` branch will be deployed to staging.
+## Troubleshooting
 
-## Testing
+Something's gone awry 🤨? Try these steps:
 
-### Vitest
+- Re-build the Remix server
 
-For lower level tests of utilities and individual components, we use `vitest`. We have DOM-specific assertion helpers via [`@testing-library/jest-dom`](https://testing-library.com/jest-dom).
+  ```sh
+  npm run build
+  ```
 
-### Type Checking
+- Re-install all dependencies (a "clean install")
 
-This project uses TypeScript. It's recommended to get TypeScript set up for your editor to get a really great in-editor experience with type checking and auto-complete. To run type checking across the whole project, run `npm run typecheck`.
-
-### Linting
-
-This project uses ESLint for linting. That is configured in `.eslintrc.js`.
-
-### Formatting
-
-We use [Prettier](https://prettier.io/) for auto-formatting in this project. It's recommended to install an editor plugin (like the [VSCode Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)) to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
+  ```sh
+  npm ci
+  ```
