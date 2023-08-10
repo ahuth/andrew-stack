@@ -1,14 +1,15 @@
-import path from 'path';
+import crypto from 'node:crypto';
+import path from 'node:path';
 import {createRequestHandler} from '@remix-run/express';
 import compression from 'compression';
 import express from 'express';
+import helmet from 'helmet';
 import morgan from 'morgan';
 
 const app = express();
+const BUILD_DIR = path.join(process.cwd(), 'build');
 
 app.use((req, res, next) => {
-  res.set('Strict-Transport-Security', `max-age=${60 * 60 * 24 * 365 * 100}`);
-
   // /clean-urls/ -> /clean-urls
   if (req.path.endsWith('/') && req.path.length > 1) {
     const query = req.url.slice(req.path.length);
@@ -24,6 +25,32 @@ app.use(compression());
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable('x-powered-by');
 
+// Generate a nonce for each request, which we'll use for CSP.
+app.use((_, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(32).toString('base64');
+  next();
+});
+
+// Security-related HTTP response headers, such as content-security-policy (CSP) and
+// strict-transport-security.
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'connect-src': [
+          process.env.NODE_ENV === 'development' ? 'ws:' : null,
+          "'self'",
+        ].filter(Boolean) as string[],
+        'script-src': [
+          "'strict-dynamic'",
+          // @ts-expect-error Helmet types don't seem to know about res.locals
+          (_, res) => `'nonce-${res.locals.cspNonce}`,
+        ],
+      },
+    },
+  }),
+);
+
 // Remix fingerprints its assets so we can cache forever.
 app.use(
   '/build',
@@ -36,18 +63,15 @@ app.use(express.static('public', {maxAge: '1h'}));
 
 app.use(morgan('tiny'));
 
-const MODE = process.env.NODE_ENV;
-const BUILD_DIR = path.join(process.cwd(), 'build');
-
 app.all(
   '*',
-  MODE === 'production'
+  process.env.NODE_ENV === 'production'
     ? createRequestHandler({build: require(BUILD_DIR)})
     : (...args) => {
         purgeRequireCache();
         const requestHandler = createRequestHandler({
           build: require(BUILD_DIR),
-          mode: MODE,
+          mode: process.env.NODE_ENV,
         });
         return requestHandler(...args);
       },
