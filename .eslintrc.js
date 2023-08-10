@@ -9,14 +9,12 @@ module.exports = {
       version: 28,
     },
   },
-  plugins: [
-    'prettier',
-  ],
+  plugins: ['prettier'],
   extends: [
-    "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
-    "@remix-run/eslint-config/jest-testing-library",
-    "plugin:prettier/recommended",
+    '@remix-run/eslint-config',
+    '@remix-run/eslint-config/node',
+    '@remix-run/eslint-config/jest-testing-library',
+    'plugin:prettier/recommended',
   ],
   ignorePatterns: ['build/'],
 };

@@ -1,15 +1,15 @@
-import type { LoaderArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Form, Link, NavLink, Outlet, useLoaderData } from "@remix-run/react";
+import type {LoaderArgs} from '@remix-run/node';
+import {json} from '@remix-run/node';
+import {Form, Link, NavLink, Outlet, useLoaderData} from '@remix-run/react';
 
-import { getNoteListItems } from "~/models/note.server";
-import { requireUserId } from "~/session.server";
-import { useUser } from "~/utils";
+import {getNoteListItems} from '~/models/note.server';
+import {requireUserId} from '~/session.server';
+import {useUser} from '~/utils';
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({request}: LoaderArgs) => {
   const userId = await requireUserId(request);
-  const noteListItems = await getNoteListItems({ userId });
-  return json({ noteListItems });
+  const noteListItems = await getNoteListItems({userId});
+  return json({noteListItems});
 };
 
 export default function NotesPage() {
@@ -48,8 +48,8 @@ export default function NotesPage() {
               {data.noteListItems.map((note) => (
                 <li key={note.id}>
                   <NavLink
-                    className={({ isActive }) =>
-                      `block border-b p-4 text-xl ${isActive ? "bg-white" : ""}`
+                    className={({isActive}) =>
+                      `block border-b p-4 text-xl ${isActive ? 'bg-white' : ''}`
                     }
                     to={note.id}
                   >
