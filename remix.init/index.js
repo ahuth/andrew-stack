@@ -1,241 +1,84 @@
-const {execSync} = require('child_process');
-const crypto = require('crypto');
-const fs = require('fs/promises');
-const path = require('path');
+const fs = require('node:fs/promises');
+const path = require('node:path');
+const {dedent} = require('ts-dedent');
 
-const PackageJson = require('@npmcli/package-json');
-const semver = require('semver');
-const YAML = require('yaml');
-
-const cleanupDeployWorkflow = (deployWorkflow, deployWorkflowPath) => {
-  delete deployWorkflow.jobs.typecheck;
-  deployWorkflow.jobs.deploy.needs = deployWorkflow.jobs.deploy.needs.filter(
-    (need) => need !== 'typecheck',
-  );
-
-  return [fs.writeFile(deployWorkflowPath, YAML.stringify(deployWorkflow))];
-};
-
-const cleanupVitestConfig = (vitestConfig, vitestConfigPath) => {
-  const newVitestConfig = vitestConfig.replace(
-    'setup-test-env.ts',
-    'setup-test-env.js',
-  );
-
-  return [fs.writeFile(vitestConfigPath, newVitestConfig)];
-};
-
-const escapeRegExp = (string) =>
-  // $& means the whole matched string
-  string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-const getPackageManagerCommand = (packageManager) =>
-  // Inspired by https://github.com/nrwl/nx/blob/bd9b33eaef0393d01f747ea9a2ac5d2ca1fb87c6/packages/nx/src/utils/package-manager.ts#L38-L103
-  ({
-    npm: () => ({
-      exec: 'npx',
-      lockfile: 'package-lock.json',
-      run: (script, args) => `npm run ${script} ${args ? `-- ${args}` : ''}`,
-    }),
-    pnpm: () => {
-      const pnpmVersion = getPackageManagerVersion('pnpm');
-      const includeDoubleDashBeforeArgs = semver.lt(pnpmVersion, '7.0.0');
-      const useExec = semver.gte(pnpmVersion, '6.13.0');
-
-      return {
-        exec: useExec ? 'pnpm exec' : 'pnpx',
-        lockfile: 'pnpm-lock.yaml',
-        run: (script, args) =>
-          includeDoubleDashBeforeArgs
-            ? `pnpm run ${script} ${args ? `-- ${args}` : ''}`
-            : `pnpm run ${script} ${args || ''}`,
-      };
-    },
-    yarn: () => ({
-      exec: 'yarn',
-      lockfile: 'yarn.lock',
-      run: (script, args) => `yarn ${script} ${args || ''}`,
-    }),
-  })[packageManager]();
-
-const getPackageManagerVersion = (packageManager) =>
-  // Copied over from https://github.com/nrwl/nx/blob/bd9b33eaef0393d01f747ea9a2ac5d2ca1fb87c6/packages/nx/src/utils/package-manager.ts#L105-L114
-  execSync(`${packageManager} --version`).toString('utf-8').trim();
-
-const getRandomString = (length) => crypto.randomBytes(length).toString('hex');
-
-const readFileIfNotTypeScript = (
-  isTypeScript,
-  filePath,
-  parseFunction = (result) => result,
-) =>
-  isTypeScript
-    ? Promise.resolve()
-    : fs.readFile(filePath, 'utf-8').then(parseFunction);
-
-const removeUnusedDependencies = (dependencies, unusedDependencies) =>
-  Object.fromEntries(
-    Object.entries(dependencies).filter(
-      ([key]) => !unusedDependencies.includes(key),
-    ),
-  );
-
-const updatePackageJson = ({APP_NAME, isTypeScript, packageJson}) => {
-  const {
-    devDependencies,
-    prisma: {seed: prismaSeed, ...prisma},
-    scripts: {
-      'format:repo': _repoFormatScript,
-      'lint:repo': _repoLintScript,
-      typecheck,
-      validate,
-      ...scripts
-    },
-  } = packageJson.content;
-
-  packageJson.update({
-    name: APP_NAME,
-    devDependencies: removeUnusedDependencies(
-      devDependencies,
-      // packages that are only used for linting the repo
-      ['eslint-plugin-markdown', 'eslint-plugin-prefer-let'].concat(
-        isTypeScript ? [] : ['ts-node'],
-      ),
-    ),
-    prisma: isTypeScript
-      ? {...prisma, seed: prismaSeed}
-      : {
-          ...prisma,
-          seed: prismaSeed
-            .replace('ts-node', 'node')
-            .replace('seed.ts', 'seed.js'),
-        },
-    scripts: isTypeScript
-      ? {...scripts, typecheck, validate}
-      : {...scripts, validate: validate.replace(' typecheck', '')},
-  });
-};
-
-const main = async ({isTypeScript, packageManager, rootDirectory}) => {
-  const pm = getPackageManagerCommand(packageManager);
-  const FILE_EXTENSION = isTypeScript ? 'ts' : 'js';
-
-  const README_PATH = path.join(rootDirectory, 'README.md');
-  const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.example');
-  const ENV_PATH = path.join(rootDirectory, '.env');
-  const DEPLOY_WORKFLOW_PATH = path.join(
-    rootDirectory,
-    '.github',
-    'workflows',
-    'deploy.yml',
-  );
-  const DOCKERFILE_PATH = path.join(rootDirectory, 'Dockerfile');
-  const VITEST_CONFIG_PATH = path.join(
-    rootDirectory,
-    `vitest.config.${FILE_EXTENSION}`,
-  );
-
-  const REPLACER = 'andrew-stack-template';
-
-  const DIR_NAME = path.basename(rootDirectory);
-  const SUFFIX = getRandomString(2);
-
-  const APP_NAME = (DIR_NAME + '-' + SUFFIX)
-    // get rid of anything that's not allowed in an app name
-    .replace(/[^a-zA-Z0-9-_]/g, '-');
-
-  const [readme, env, dockerfile, deployWorkflow, vitestConfig, packageJson] =
-    await Promise.all([
-      fs.readFile(README_PATH, 'utf-8'),
-      fs.readFile(EXAMPLE_ENV_PATH, 'utf-8'),
-      fs.readFile(DOCKERFILE_PATH, 'utf-8'),
-      readFileIfNotTypeScript(isTypeScript, DEPLOY_WORKFLOW_PATH, (s) =>
-        YAML.parse(s),
-      ),
-      readFileIfNotTypeScript(isTypeScript, VITEST_CONFIG_PATH),
-      PackageJson.load(rootDirectory),
-    ]);
-
-  const newEnv = env.replace(
-    /^SESSION_SECRET=.*$/m,
-    `SESSION_SECRET="${getRandomString(16)}"`,
-  );
-
-  const initInstructions = `
-- First run this stack's \`remix.init\` script and commit the changes it makes to your project.
-
-  \`\`\`sh
-  npx remix init
-  git init # if you haven't already
-  git add .
-  git commit -m "Initialize project"
-  \`\`\`
-`;
-
-  const newReadme = readme
-    .replace(new RegExp(escapeRegExp(REPLACER), 'g'), APP_NAME)
-    .replace(initInstructions, '');
-
-  const newDockerfile = pm.lockfile
-    ? dockerfile.replace(
-        new RegExp(escapeRegExp('ADD package.json'), 'g'),
-        `ADD package.json ${pm.lockfile}`,
-      )
-    : dockerfile;
-
-  updatePackageJson({APP_NAME, isTypeScript, packageJson});
-
-  const fileOperationPromises = [
-    fs.writeFile(README_PATH, newReadme),
-    fs.writeFile(ENV_PATH, newEnv),
-    fs.writeFile(DOCKERFILE_PATH, newDockerfile),
-    packageJson.save(),
-    fs.rm(path.join(rootDirectory, '.github', 'ISSUE_TEMPLATE'), {
-      recursive: true,
-    }),
-    fs.rm(path.join(rootDirectory, '.github', 'workflows', 'format-repo.yml')),
-    fs.rm(path.join(rootDirectory, '.github', 'workflows', 'lint-repo.yml')),
-    fs.rm(path.join(rootDirectory, '.github', 'workflows', 'no-response.yml')),
-    fs.rm(path.join(rootDirectory, '.github', 'dependabot.yml')),
-    fs.rm(path.join(rootDirectory, '.github', 'PULL_REQUEST_TEMPLATE.md')),
-    fs.rm(path.join(rootDirectory, '.eslintrc.repo.js')),
-    fs.rm(path.join(rootDirectory, 'LICENSE.md')),
-  ];
-
+/**
+ * Prepare the generated repo for development by
+ * - updating the app name in various places
+ * - copying and modifying some files
+ * - etc.
+ *
+ * @param {{isTypeScript: boolean, packageManager: string, rootDirectory: string}} param0
+ */
+module.exports = async function main({isTypeScript, rootDirectory}) {
   if (!isTypeScript) {
-    fileOperationPromises.push(
-      ...cleanupDeployWorkflow(deployWorkflow, DEPLOY_WORKFLOW_PATH),
-    );
-
-    fileOperationPromises.push(
-      ...cleanupVitestConfig(vitestConfig, VITEST_CONFIG_PATH),
+    console.warn(
+      "I see you've asked for TypeScript to be removed from the project 🧐. That option is not supported, and the project will still be generated with TypeScript.",
     );
   }
 
-  await Promise.all(fileOperationPromises);
+  const DIR_NAME = path.basename(rootDirectory);
+  const APP_NAME = DIR_NAME
+    // get rid of anything that's not allowed in an app name
+    .replace(/[^a-zA-Z0-9-_]/g, '-');
 
-  execSync(pm.run('format', '--loglevel warn'), {
-    cwd: rootDirectory,
-    stdio: 'inherit',
-  });
+  const PATHS = {
+    env: path.join(rootDirectory, '.env'),
+    example_env: path.join(rootDirectory, '.env.example'),
+    package_json: path.join(rootDirectory, 'package.json'),
+    readme: path.join(rootDirectory, 'README.md'),
+  };
+
+  const replaceDefaultName = replaceDefaultTemplateName.bind(null, APP_NAME);
+
+  await Promise.all([
+    updateFile(PATHS.package_json, replaceDefaultName),
+    updateFile(PATHS.readme, (file) => {
+      return (
+        replaceDefaultName(file)
+          .replace('# Remix Andrew Stack', `# ${APP_NAME}`)
+          // Remove parts of the readme that are only relevant to the template, not the generated app.
+          //
+          // These sections are marked with magic comments.
+          //
+          // Of note:
+          // - `s` flag to match newlines with `.`  ━━━━━━━━━━━━━━━━━━━┓
+          // - `?` character to make `*` non-greedy ┓                  ┃
+          //                                  ┏━━━━━┛                  ┃
+          //                                  ▼                        ▼
+          .replaceAll(/<!-- DELETE-START -->.*?<!-- DELETE-END -->\s*/gs, '')
+      );
+    }),
+    fs.copyFile(PATHS.example_env, PATHS.env),
+  ]);
 
   console.log(
-    `
-Setup is almost complete. Follow these steps to finish initialization:
+    dedent`
+      Setup is almost complete. Follow these steps to finish initialization:
 
-- Start the database:
-  ${pm.run('docker')}
+      - Follow the setup steps in the README.md
 
-- Run setup (this updates the database):
-  ${pm.run('setup')}
-
-- Run the first build (this generates the server you will run):
-  ${pm.run('build')}
-
-- You're now ready to rock and roll 🤘
-  ${pm.run('dev')}
-    `.trim(),
+      - If you haven't already, initialize the git repo with \`git init\`
+    `,
   );
 };
 
-module.exports = main;
+/**
+ * Update the contents of a file.
+ * @param {string} path
+ * @param {function(string):string} updater
+ */
+async function updateFile(path, updater) {
+  const file = await fs.readFile(path, 'utf-8');
+  const newFile = updater(file);
+  return fs.writeFile(path, newFile);
+}
+
+/**
+ * Replace the default template name with the actual app's name.
+ * @param {string} content
+ * @param {string} appName
+ */
+function replaceDefaultTemplateName(appName, content) {
+  return content.replaceAll('andrew-stack-template', appName);
+}
