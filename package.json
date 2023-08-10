@@ -20,7 +20,6 @@
     "types": "tsc --noEmit",
     "validate": "run-p \"test -- --run\" lint types"
   },
-  "prettier": {},
   "eslintIgnore": [
     "/node_modules",
     "/build",
