@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import path from 'node:path';
-import {createRequestHandler} from '@remix-run/express';
+import {createRequestHandler as expressCreateRequestHandler} from '@remix-run/express';
+import {wrapExpressCreateRequestHandler} from '@sentry/remix';
 import compression from 'compression';
 import express from 'express';
 import helmet from 'helmet';
@@ -62,6 +63,10 @@ app.use(
 app.use(express.static('public', {maxAge: '1h'}));
 
 app.use(morgan('tiny'));
+
+const createRequestHandler = process.env.SENTRY_DSN
+  ? wrapExpressCreateRequestHandler(expressCreateRequestHandler)
+  : expressCreateRequestHandler;
 
 app.all(
   '*',

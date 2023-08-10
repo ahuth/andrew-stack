@@ -8,7 +8,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react';
+import {withSentry} from '@sentry/remix';
 import {getUser} from '~/session.server';
 import stylesheet from '~/tailwind.css';
 import {useNonce} from '~/utils/useNonce';
@@ -19,10 +21,21 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({request}: LoaderArgs) => {
-  return json({user: await getUser(request)});
+  const {NODE_ENV, SENTRY_DSN} = process.env;
+
+  return json({
+    user: await getUser(request),
+    ENV: {
+      NODE_ENV,
+      SENTRY_DSN,
+    },
+  });
 };
 
-export default function App() {
+export default withSentry(App);
+
+function App() {
+  const data = useLoaderData<typeof loader>();
   const nonce = useNonce();
 
   return (
@@ -36,6 +49,14 @@ export default function App() {
       <body className="h-full">
         <Outlet />
         <ScrollRestoration nonce={nonce} />
+        <script
+          // Pass environment data from the server to the client. Using `dangerouslySetInnerHTML`
+          // bypasses React's XSS protection, so don't pass user input into here.
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+          nonce={nonce}
+        />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />
       </body>

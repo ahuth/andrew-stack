@@ -1,12 +1,21 @@
 import {PassThrough} from 'node:stream';
-import type {EntryContext} from '@remix-run/node';
+import type {DataFunctionArgs, EntryContext} from '@remix-run/node';
 import {Response} from '@remix-run/node';
 import {RemixServer} from '@remix-run/react';
+import * as Sentry from '@sentry/remix';
 import isbot from 'isbot';
 import {renderToPipeableStream} from 'react-dom/server';
 import {NonceContext} from './utils/useNonce';
 
 const ABORT_DELAY = 5_000;
+
+if (process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.NODE_ENV,
+    tracesSampleRate: 1.0,
+  });
+}
 
 export default function handleRequest(
   request: Request,
@@ -55,4 +64,12 @@ export default function handleRequest(
 
     setTimeout(abort, ABORT_DELAY);
   });
+}
+
+export function handleError(error: unknown, {request}: DataFunctionArgs): void {
+  if (error instanceof Error) {
+    Sentry.captureRemixServerException(error, 'remix.server', request);
+  } else {
+    Sentry.captureException(error);
+  }
 }
