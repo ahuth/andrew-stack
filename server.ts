@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 import path from 'node:path';
+import type {GetLoadContextFunction} from '@remix-run/express';
 import {createRequestHandler as expressCreateRequestHandler} from '@remix-run/express';
 import {wrapExpressCreateRequestHandler} from '@sentry/remix';
 import compression from 'compression';
@@ -68,14 +69,21 @@ const createRequestHandler = process.env.SENTRY_DSN
   ? wrapExpressCreateRequestHandler(expressCreateRequestHandler)
   : expressCreateRequestHandler;
 
+const getLoadContext: GetLoadContextFunction = (req, res) => {
+  return {
+    cspNonce: res.locals.cspNonce,
+  };
+};
+
 app.all(
   '*',
   process.env.NODE_ENV === 'production'
-    ? createRequestHandler({build: require(BUILD_DIR)})
+    ? createRequestHandler({build: require(BUILD_DIR), getLoadContext})
     : (...args) => {
         purgeRequireCache();
         const requestHandler = createRequestHandler({
           build: require(BUILD_DIR),
+          getLoadContext,
           mode: process.env.NODE_ENV,
         });
         return requestHandler(...args);
