@@ -47,8 +47,8 @@ jobs:
       - name: 🔎 Type check
         run: npm run types
 
-  vitest:
-    name: ⚡ Vitest
+  test:
+    name: ⚡ Test
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
@@ -66,3 +66,47 @@ jobs:
 
       - name: ⚡ Run vitest
         run: npm run test -- --coverage
+
+  playwright:
+    name: 🧑‍🎤 Playwright
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 😻 Setup node
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          cache-dependency-path: ./package.json
+          node-version-file: .node-version
+
+      - name: 📥 Install deps
+        run: npm install
+
+      - name: 🏄 Copy test env vars
+        run: cp .env.example .env
+
+      - name: 🐳 Docker compose
+        run: npm run docker
+
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: 🛠 Setup Database
+        run: npx prisma migrate reset --force
+
+      - name: Build the Remix server
+        run: npm run build
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

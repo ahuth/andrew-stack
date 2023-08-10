@@ -12,11 +12,16 @@ module.exports = {
   extends: [
     '@remix-run/eslint-config',
     '@remix-run/eslint-config/node',
-    '@remix-run/eslint-config/jest-testing-library',
     'plugin:prettier/recommended',
   ],
   ignorePatterns: ['build/'],
   rules: {
     'import/order': ['error', {alphabetize: {order: 'asc'}}],
   },
+  overrides: [
+    {
+      files: ['app/**/*.{spec,test}.{js,jsx,ts,tsx}'],
+      extends: ['@remix-run/eslint-config/jest-testing-library'],
+    },
+  ],
 };

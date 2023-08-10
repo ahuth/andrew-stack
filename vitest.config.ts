@@ -12,7 +12,7 @@ export default defineConfig({
     globals: true,
     include: ['./app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     restoreMocks: true,
-    setupFiles: ['./test/setupTests.ts'],
+    setupFiles: ['./tests/setupTests.ts'],
     watchExclude: ['**/node_modules/**', '**/build/**', '**/postgres-data/**'],
   },
 });

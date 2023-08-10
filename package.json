@@ -15,8 +15,10 @@
     "prod": "NODE_ENV=production node ./build/server.js",
     "routes": "remix routes",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
+    "setup:e2e": "npm run build:server && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx prisma migrate reset --force",
     "start": "npm run dev",
     "test": "vitest",
+    "test:e2e": "npm run setup:e2e && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx playwright test",
     "types": "tsc --noEmit",
     "validate": "run-p \"test -- --run\" lint types"
   },
@@ -45,6 +47,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@playwright/test": "^1.37.0",
     "@remix-run/dev": "^1.19.3",
     "@remix-run/eslint-config": "^1.19.3",
     "@testing-library/jest-dom": "^5.16.5",

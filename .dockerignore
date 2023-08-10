@@ -1,7 +1,11 @@
-/node_modules
 *.log
 .DS_Store
 .env
 /.cache
-/public/build
 /build
+/coverage
+/node_modules
+/test-results
+/playwright-reporter
+/playwright/.cache
+/public/build
