@@ -16,4 +16,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   ignorePatterns: ['build/'],
+  rules: {
+    'import/order': ['error', {alphabetize: {order: 'asc'}}],
+  },
 };
