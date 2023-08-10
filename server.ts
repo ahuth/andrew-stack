@@ -77,20 +77,33 @@ app.all(
       },
 );
 
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT) || 3000;
 
-app.listen(port, () => {
-  // require the built app so we're ready when the first request comes in
-  require(BUILD_DIR);
-  console.log(`✅ app ready: http://localhost:${port}`);
-});
+startServer(port);
 
+function startServer(port: number) {
+  const server = app.listen(port, () => {
+    // Require the built app so we're ready when the first request comes in.
+    require(BUILD_DIR);
+    console.log(`✅ app ready: http://localhost:${port}`);
+  });
+
+  process.on('SIGINT', () => server.close());
+  process.on('SIGQUIT', () => server.close());
+  process.on('SIGTERM', () => server.close());
+}
+
+/**
+ * Purge the require cache so we can reload any files that have changed. Gives us a sort of
+ * "server-side HMR".
+ *
+ * Alternatively we could use nodemon to restart the server automagically when files change, or run
+ * `remix dev` without the `--no-restart` flag.
+ *
+ * However, purging the cache (instead of restarting) seems to give us the best dev experience
+ * right now. Revisit as Remix updates its dev server.
+ */
 function purgeRequireCache() {
-  // purge require cache on requests for "server side HMR" this won't let
-  // you have in-memory objects between requests in development,
-  // alternatively you can set up nodemon/pm2-dev to restart the server on
-  // file changes, we prefer the DX of this though, so we've included it
-  // for you by default
   for (const key in require.cache) {
     if (key.startsWith(BUILD_DIR)) {
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
