@@ -50,8 +50,11 @@ function App() {
         <Outlet />
         <ScrollRestoration nonce={nonce} />
         <script
-          // Pass environment data from the server to the client. Using `dangerouslySetInnerHTML`
-          // bypasses React's XSS protection, so don't pass user input into here.
+          // Pass environment data from the server to the client. Keep the global.d.ts types in
+          // sync with this.
+          //
+          // Using `dangerouslySetInnerHTML` bypasses React's XSS protection, so don't pass user
+          // input into here.
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
           }}
