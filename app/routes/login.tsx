@@ -7,6 +7,8 @@ import {verifyLogin} from '~/models/user.server';
 import {createUserSession, getUserId} from '~/session.server';
 import {safeRedirect, validateEmail} from '~/utils';
 
+export const meta: V2_MetaFunction = () => [{title: 'Login'}];
+
 export const loader = async ({request}: LoaderArgs) => {
   const userId = await getUserId(request);
   if (userId) return redirect('/');
@@ -58,8 +60,6 @@ export const action = async ({request}: ActionArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = () => [{title: 'Login'}];
-
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/notes';
@@ -79,70 +79,48 @@ export default function LoginPage() {
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form method="post" className="space-y-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-            </label>
-            <div className="mt-1">
-              <InputField
-                autoComplete="email"
-                autoFocus
-                id="email"
-                inputRef={emailRef}
-                name="email"
-                required
-                type="email"
-              />
-            </div>
-          </div>
+          <InputField
+            autoComplete="email"
+            autoFocus
+            error={actionData?.errors.email}
+            id="email"
+            inputLabel="Email address"
+            inputRef={emailRef}
+            name="email"
+            required
+            type="email"
+          />
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <div className="mt-1">
-              <InputField
-                autoComplete="current-password"
-                id="password"
-                inputRef={passwordRef}
-                name="password"
-                type="password"
-              />
-            </div>
-          </div>
+          <InputField
+            autoComplete="current-password"
+            error={actionData?.errors.password}
+            id="password"
+            inputLabel="Password"
+            inputRef={passwordRef}
+            name="password"
+            type="password"
+          />
 
           <input type="hidden" name="redirectTo" value={redirectTo} />
-          <button
-            type="submit"
-            className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-          >
+          <button type="submit" className="btn btn-primary w-full">
             Log in
           </button>
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
+            <div className="flex items-center sm:gap-2">
               <input
                 id="remember"
                 name="remember"
                 type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="checkbox-primary checkbox"
               />
-              <label
-                htmlFor="remember"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Remember me
+              <label htmlFor="remember" className="label">
+                <span className="label-text">Remember me</span>
               </label>
             </div>
-            <div className="text-center text-sm text-gray-500">
+            <div className="text-center text-sm">
               Don't have an account?{' '}
               <Link
-                className="text-blue-500 underline"
+                className="link-primary link"
                 to={{
                   pathname: '/join',
                   search: searchParams.toString(),

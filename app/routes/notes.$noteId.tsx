@@ -7,7 +7,6 @@ import {
   useRouteError,
 } from '@remix-run/react';
 import invariant from 'tiny-invariant';
-
 import {deleteNote, getNote} from '~/models/note.server';
 import {requireUserId} from '~/session.server';
 
@@ -40,10 +39,7 @@ export default function NoteDetailsPage() {
       <p className="py-6">{data.note.body}</p>
       <hr className="my-4" />
       <Form method="post">
-        <button
-          type="submit"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-        >
+        <button type="submit" className="btn btn-error">
           Delete
         </button>
       </Form>

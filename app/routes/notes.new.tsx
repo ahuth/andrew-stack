@@ -2,7 +2,7 @@ import type {ActionArgs} from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
-
+import InputField from '~/components/InputField';
 import {createNote} from '~/models/note.server';
 import {requireUserId} from '~/session.server';
 
@@ -55,25 +55,11 @@ export default function NewNotePage() {
         width: '100%',
       }}
     >
-      <div>
-        <label className="flex w-full flex-col gap-1">
-          <span>Title: </span>
-          <input
-            ref={titleRef}
-            name="title"
-            className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-            aria-invalid={actionData?.errors?.title ? true : undefined}
-            aria-errormessage={
-              actionData?.errors?.title ? 'title-error' : undefined
-            }
-          />
-        </label>
-        {actionData?.errors?.title ? (
-          <div className="pt-1 text-red-700" id="title-error">
-            {actionData.errors.title}
-          </div>
-        ) : null}
-      </div>
+      <InputField
+        error={actionData?.errors?.title}
+        inputLabel="Title"
+        inputRef={titleRef}
+      />
 
       <div>
         <label className="flex w-full flex-col gap-1">
@@ -97,10 +83,7 @@ export default function NewNotePage() {
       </div>
 
       <div className="text-right">
-        <button
-          type="submit"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-        >
+        <button type="submit" className="btn btn-primary">
           Save
         </button>
       </div>
