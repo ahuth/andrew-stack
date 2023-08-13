@@ -87,8 +87,8 @@ export default function Join() {
           <InputField
             autoComplete="email"
             autoFocus
+            error={actionData?.errors.email}
             fieldLabel="Email address"
-            id="email"
             name="email"
             ref={emailRef}
             required
@@ -96,16 +96,16 @@ export default function Join() {
           />
 
           <InputField
-            autoComplete="current-password"
+            autoComplete="new-password"
+            error={actionData?.errors.password}
             fieldLabel="Password"
-            id="password"
-            name="new-password"
+            name="password"
             ref={passwordRef}
             type="password"
           />
 
           <input type="hidden" name="redirectTo" value={redirectTo} />
-          <button type="submit" className="btn btn-primary w-full">
+          <button type="submit" className="btn btn-primary w-full normal-case">
             Create Account
           </button>
           <div className="flex items-center justify-center">

@@ -84,7 +84,6 @@ export default function LoginPage() {
             autoFocus
             error={actionData?.errors.email}
             fieldLabel="Email address"
-            id="email"
             name="email"
             ref={emailRef}
             required
@@ -95,14 +94,13 @@ export default function LoginPage() {
             autoComplete="current-password"
             error={actionData?.errors.password}
             fieldLabel="Password"
-            id="password"
             name="password"
             ref={passwordRef}
             type="password"
           />
 
           <input type="hidden" name="redirectTo" value={redirectTo} />
-          <button type="submit" className="btn btn-primary w-full">
+          <button type="submit" className="btn btn-primary w-full normal-case">
             Log in
           </button>
           <div className="flex items-center justify-between">
