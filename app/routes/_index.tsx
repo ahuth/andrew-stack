@@ -1,5 +1,5 @@
 import type {V2_MetaFunction} from '@remix-run/node';
-import {Link} from '@remix-run/react';
+import LinkThatLooksLikeButton from '~/components/LinkThatLooksLikeButton';
 import {useOptionalUser} from '~/utils';
 
 export const meta: V2_MetaFunction = () => [{title: 'Remix Notes'}];
@@ -31,26 +31,17 @@ export default function Index() {
               </p>
               <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
                 {user ? (
-                  <Link
-                    className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-700 shadow-sm hover:bg-blue-50 sm:px-8"
-                    to="/notes"
-                  >
+                  <LinkThatLooksLikeButton to="/notes">
                     View Notes
-                  </Link>
+                  </LinkThatLooksLikeButton>
                 ) : (
                   <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
-                    <Link
-                      className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-700 shadow-sm hover:bg-blue-50 sm:px-8"
-                      to="/join"
-                    >
+                    <LinkThatLooksLikeButton to="/join">
                       Sign up
-                    </Link>
-                    <Link
-                      className="flex items-center justify-center rounded-md bg-blue-500 px-4 py-3 font-medium text-white hover:bg-blue-600"
-                      to="/login"
-                    >
+                    </LinkThatLooksLikeButton>
+                    <LinkThatLooksLikeButton to="/login" type="primary">
                       Log In
-                    </Link>
+                    </LinkThatLooksLikeButton>
                   </div>
                 )}
               </div>
