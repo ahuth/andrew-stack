@@ -7,6 +7,7 @@ export default {
     extend: {},
   },
   daisyui: {
+    logs: false,
     themes: ['light'],
   },
 } satisfies Config;
