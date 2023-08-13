@@ -3,6 +3,7 @@ import {json, redirect} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
 import InputField from '~/components/InputField';
+import TextAreaField from '~/components/TextAreaField';
 import {createNote} from '~/models/note.server';
 import {requireUserId} from '~/session.server';
 
@@ -58,29 +59,17 @@ export default function NewNotePage() {
       <InputField
         error={actionData?.errors?.title}
         fieldLabel="Title"
+        name="title"
         ref={titleRef}
       />
 
-      <div>
-        <label className="flex w-full flex-col gap-1">
-          <span>Body: </span>
-          <textarea
-            ref={bodyRef}
-            name="body"
-            rows={8}
-            className="w-full flex-1 rounded-md border-2 border-blue-500 px-3 py-2 text-lg leading-6"
-            aria-invalid={actionData?.errors?.body ? true : undefined}
-            aria-errormessage={
-              actionData?.errors?.body ? 'body-error' : undefined
-            }
-          />
-        </label>
-        {actionData?.errors?.body ? (
-          <div className="pt-1 text-red-700" id="body-error">
-            {actionData.errors.body}
-          </div>
-        ) : null}
-      </div>
+      <TextAreaField
+        error={actionData?.errors.body}
+        fieldLabel="Body"
+        name="body"
+        ref={bodyRef}
+        rows={8}
+      />
 
       <div className="text-right">
         <button type="submit" className="btn btn-primary">
