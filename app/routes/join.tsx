@@ -87,20 +87,20 @@ export default function Join() {
           <InputField
             autoComplete="email"
             autoFocus
+            fieldLabel="Email address"
             id="email"
-            inputLabel="Email address"
-            inputRef={emailRef}
             name="email"
+            ref={emailRef}
             required
             type="email"
           />
 
           <InputField
             autoComplete="current-password"
+            fieldLabel="Password"
             id="password"
-            inputLabel="Password"
-            inputRef={passwordRef}
             name="new-password"
+            ref={passwordRef}
             type="password"
           />
 

@@ -57,8 +57,8 @@ export default function NewNotePage() {
     >
       <InputField
         error={actionData?.errors?.title}
-        inputLabel="Title"
-        inputRef={titleRef}
+        fieldLabel="Title"
+        ref={titleRef}
       />
 
       <div>

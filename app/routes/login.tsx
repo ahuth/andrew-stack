@@ -83,10 +83,10 @@ export default function LoginPage() {
             autoComplete="email"
             autoFocus
             error={actionData?.errors.email}
+            fieldLabel="Email address"
             id="email"
-            inputLabel="Email address"
-            inputRef={emailRef}
             name="email"
+            ref={emailRef}
             required
             type="email"
           />
@@ -94,10 +94,10 @@ export default function LoginPage() {
           <InputField
             autoComplete="current-password"
             error={actionData?.errors.password}
+            fieldLabel="Password"
             id="password"
-            inputLabel="Password"
-            inputRef={passwordRef}
             name="password"
+            ref={passwordRef}
             type="password"
           />
 
