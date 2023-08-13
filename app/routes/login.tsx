@@ -78,7 +78,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
-        <Form method="post" className="space-y-6">
+        <Form className="space-y-6" method="post">
           <InputField
             autoComplete="email"
             autoFocus
@@ -99,19 +99,19 @@ export default function LoginPage() {
             type="password"
           />
 
-          <input type="hidden" name="redirectTo" value={redirectTo} />
-          <button type="submit" className="btn btn-primary w-full normal-case">
+          <input name="redirectTo" type="hidden" value={redirectTo} />
+          <button className="btn btn-primary w-full normal-case" type="submit">
             Log in
           </button>
           <div className="flex items-center justify-between">
             <div className="flex items-center sm:gap-2">
               <input
+                className="checkbox-primary checkbox"
                 id="remember"
                 name="remember"
                 type="checkbox"
-                className="checkbox-primary checkbox"
               />
-              <label htmlFor="remember" className="label">
+              <label className="label" htmlFor="remember">
                 <span className="label-text">Remember me</span>
               </label>
             </div>

@@ -39,7 +39,7 @@ export default function NoteDetailsPage() {
       <p className="py-6">{data.note.body}</p>
       <hr className="my-4" />
       <Form method="post">
-        <button type="submit" className="btn btn-error normal-case">
+        <button className="btn btn-error normal-case" type="submit">
           Delete
         </button>
       </Form>

@@ -32,9 +32,9 @@ export default function handleRequest(
     const {pipe, abort} = renderToPipeableStream(
       <NonceContext.Provider value={loadContext?.cspNonce}>
         <RemixServer
+          abortDelay={ABORT_DELAY}
           context={remixContext}
           url={request.url}
-          abortDelay={ABORT_DELAY}
         />
       </NonceContext.Provider>,
       {

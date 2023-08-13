@@ -72,7 +72,7 @@ export default function NewNotePage() {
       />
 
       <div className="text-right">
-        <button type="submit" className="btn btn-primary normal-case">
+        <button className="btn btn-primary normal-case" type="submit">
           Save
         </button>
       </div>

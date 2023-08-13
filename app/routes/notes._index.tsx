@@ -4,7 +4,7 @@ export default function NoteIndexPage() {
   return (
     <p>
       No note selected. Select a note on the left, or{' '}
-      <Link to="new" className="link-primary link">
+      <Link className="link-primary link" to="new">
         create a new note.
       </Link>
     </p>

@@ -22,11 +22,11 @@ export default forwardRef<HTMLTextAreaElement, Props>(function InputField(
     <div className="flex flex-col gap-1">
       <label htmlFor={inputId}>{fieldLabel}</label>
       <textarea
-        ref={ref}
         aria-describedby={error ? errorId : undefined}
         aria-invalid={error ? true : undefined}
         className="textarea textarea-bordered w-full"
         id={inputId}
+        ref={ref}
         {...rest}
       />
       {error && (

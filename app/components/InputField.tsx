@@ -22,11 +22,11 @@ export default forwardRef<HTMLInputElement, Props>(function InputField(
     <div className="flex flex-col gap-1">
       <label htmlFor={inputId}>{fieldLabel}</label>
       <input
-        ref={ref}
         aria-describedby={error ? errorId : undefined}
         aria-invalid={error ? true : undefined}
         className="input input-bordered w-full"
         id={inputId}
+        ref={ref}
         {...rest}
       />
       {error && (
