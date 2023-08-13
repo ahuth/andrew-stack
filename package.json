@@ -11,7 +11,7 @@
     "dev:remix": "NODE_ENV=development remix watch",
     "dev:server": "NODE_ENV=development node --inspect --require ./node_modules/dotenv/config ./build/server.js",
     "docker": "docker-compose up -d",
-    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
     "prod": "NODE_ENV=production node ./build/server.js",
     "routes": "remix routes",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
