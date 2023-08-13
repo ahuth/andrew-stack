@@ -1,11 +1,14 @@
+import {useForm} from '@conform-to/react';
+import {parse} from '@conform-to/zod';
 import type {ActionArgs, LoaderArgs, V2_MetaFunction} from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
 import {Form, Link, useActionData, useSearchParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
 import InputField from '~/components/InputField';
+import {loginSchema} from '~/models/user.schema';
 import {verifyLogin} from '~/models/user.server';
 import {createUserSession, getUserId} from '~/session.server';
-import {safeRedirect, validateEmail} from '~/utils';
+import {safeRedirect} from '~/utils';
 
 export const meta: V2_MetaFunction = () => [{title: 'Login'}];
 
@@ -17,37 +20,26 @@ export const loader = async ({request}: LoaderArgs) => {
 
 export const action = async ({request}: ActionArgs) => {
   const formData = await request.formData();
-  const email = formData.get('email');
-  const password = formData.get('password');
   const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
   const remember = formData.get('remember');
+  const submission = parse(formData, {schema: loginSchema});
 
-  if (!validateEmail(email)) {
-    return json(
-      {errors: {email: 'Email is invalid', password: null}},
-      {status: 400},
-    );
+  if (!submission.value) {
+    return json(submission, {status: 400});
   }
 
-  if (typeof password !== 'string' || password.length === 0) {
-    return json(
-      {errors: {email: null, password: 'Password is required'}},
-      {status: 400},
-    );
-  }
-
-  if (password.length < 8) {
-    return json(
-      {errors: {email: null, password: 'Password is too short'}},
-      {status: 400},
-    );
-  }
-
-  const user = await verifyLogin(email, password);
+  const user = await verifyLogin(
+    submission.value.email,
+    submission.value.password,
+  );
 
   if (!user) {
     return json(
-      {errors: {email: 'Invalid email or password', password: null}},
+      {
+        error: {email: ['Invalid email or password'], password: []},
+        intent: '',
+        payload: {},
+      },
       {status: 400},
     );
   }
@@ -63,26 +55,33 @@ export const action = async ({request}: ActionArgs) => {
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/notes';
-  const actionData = useActionData<typeof action>();
+  const lastSubmission = useActionData<typeof action>();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const [form, fields] = useForm({
+    lastSubmission,
+    onValidate({formData}) {
+      return parse(formData, {schema: loginSchema});
+    },
+  });
+
   useEffect(() => {
-    if (actionData?.errors?.email) {
+    if (fields.email.error) {
       emailRef.current?.focus();
-    } else if (actionData?.errors?.password) {
+    } else if (fields.password.error) {
       passwordRef.current?.focus();
     }
-  }, [actionData]);
+  }, [fields.email.error, fields.password.error]);
 
   return (
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
-        <Form className="space-y-6" method="post">
+        <Form className="space-y-6" method="post" {...form.props}>
           <InputField
             autoComplete="email"
             autoFocus
-            error={actionData?.errors.email}
+            error={fields.email.error}
             fieldLabel="Email address"
             name="email"
             ref={emailRef}
@@ -92,7 +91,7 @@ export default function LoginPage() {
 
           <InputField
             autoComplete="current-password"
-            error={actionData?.errors.password}
+            error={fields.password.error}
             fieldLabel="Password"
             name="password"
             ref={passwordRef}
