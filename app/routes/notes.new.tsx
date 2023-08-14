@@ -1,50 +1,52 @@
+import {useForm} from '@conform-to/react';
+import {parse} from '@conform-to/zod';
 import type {ActionArgs} from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
 import InputField from '~/components/InputField';
 import TextAreaField from '~/components/TextAreaField';
+import {noteSchema} from '~/models/note.schema';
 import {createNote} from '~/models/note.server';
 import {requireUserId} from '~/session.server';
 
 export const action = async ({request}: ActionArgs) => {
   const userId = await requireUserId(request);
-
   const formData = await request.formData();
-  const title = formData.get('title');
-  const body = formData.get('body');
+  const submission = parse(formData, {schema: noteSchema});
 
-  if (typeof title !== 'string' || title.length === 0) {
-    return json(
-      {errors: {body: null, title: 'Title is required'}},
-      {status: 400},
-    );
+  if (!submission.value) {
+    return json(submission, {status: 400});
   }
 
-  if (typeof body !== 'string' || body.length === 0) {
-    return json(
-      {errors: {body: 'Body is required', title: null}},
-      {status: 400},
-    );
-  }
-
-  const note = await createNote({body, title, userId});
+  const note = await createNote({
+    body: submission.value.body,
+    title: submission.value.title,
+    userId,
+  });
 
   return redirect(`/notes/${note.id}`);
 };
 
 export default function NewNotePage() {
-  const actionData = useActionData<typeof action>();
+  const lastSubmission = useActionData<typeof action>();
   const titleRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
 
+  const [form, fields] = useForm({
+    lastSubmission,
+    onValidate({formData}) {
+      return parse(formData, {schema: noteSchema});
+    },
+  });
+
   useEffect(() => {
-    if (actionData?.errors?.title) {
+    if (fields.title.error) {
       titleRef.current?.focus();
-    } else if (actionData?.errors?.body) {
+    } else if (fields.body.error) {
       bodyRef.current?.focus();
     }
-  }, [actionData]);
+  }, [fields.title.error, fields.body.error]);
 
   return (
     <Form
@@ -55,16 +57,17 @@ export default function NewNotePage() {
         gap: 8,
         width: '100%',
       }}
+      {...form.props}
     >
       <InputField
-        error={actionData?.errors?.title}
+        error={fields.title.error}
         fieldLabel="Title"
         name="title"
         ref={titleRef}
       />
 
       <TextAreaField
-        error={actionData?.errors.body}
+        error={fields.body.error}
         fieldLabel="Body"
         name="body"
         ref={bodyRef}
