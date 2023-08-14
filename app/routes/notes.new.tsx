@@ -49,16 +49,7 @@ export default function NewNotePage() {
   }, [fields.title.error, fields.body.error]);
 
   return (
-    <Form
-      method="post"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 8,
-        width: '100%',
-      }}
-      {...form.props}
-    >
+    <Form className="flex w-full flex-col gap-2" method="post" {...form.props}>
       <InputField
         error={fields.title.error}
         fieldLabel="Title"
