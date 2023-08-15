@@ -32,12 +32,11 @@ export const action = async ({request}: ActionArgs) => {
   if (existingUser) {
     return json(
       {
+        ...submission,
         error: {
           email: ['A user already exists with this email'],
           password: [],
         },
-        intent: '',
-        payload: {},
       },
       {status: 400},
     );

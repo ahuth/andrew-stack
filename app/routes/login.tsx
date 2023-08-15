@@ -36,9 +36,8 @@ export const action = async ({request}: ActionArgs) => {
   if (!user) {
     return json(
       {
+        ...submission,
         error: {email: ['Invalid email or password'], password: []},
-        intent: '',
-        payload: {},
       },
       {status: 400},
     );
