@@ -46,7 +46,7 @@ app.use(
         'script-src': [
           "'strict-dynamic'",
           // @ts-expect-error Helmet types don't seem to know about res.locals
-          (_, res) => `'nonce-${res.locals.cspNonce}`,
+          (_, res) => `'nonce-${res.locals.cspNonce}'`,
         ],
       },
     },
