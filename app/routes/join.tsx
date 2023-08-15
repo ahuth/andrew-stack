@@ -98,6 +98,7 @@ export default function Join() {
             fieldLabel="Password"
             name="password"
             ref={passwordRef}
+            required
             type="password"
           />
 

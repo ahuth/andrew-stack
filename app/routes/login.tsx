@@ -94,6 +94,7 @@ export default function LoginPage() {
             fieldLabel="Password"
             name="password"
             ref={passwordRef}
+            required
             type="password"
           />
 

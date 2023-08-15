@@ -55,6 +55,7 @@ export default function NewNotePage() {
         fieldLabel="Title"
         name="title"
         ref={titleRef}
+        required
       />
 
       <TextAreaField
@@ -62,6 +63,7 @@ export default function NewNotePage() {
         fieldLabel="Body"
         name="body"
         ref={bodyRef}
+        required
         rows={8}
       />
 
