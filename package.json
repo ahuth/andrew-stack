@@ -15,7 +15,7 @@
     "prod": "NODE_ENV=production node ./build/server.js",
     "routes": "remix routes",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
-    "setup:e2e": "npm run build:server && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx prisma migrate reset --force",
+    "setup:e2e": "npm run build && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx prisma migrate reset --force",
     "start": "npm run dev",
     "test": "vitest",
     "test:e2e": "npm run setup:e2e && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx playwright test",
