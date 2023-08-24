@@ -1,8 +1,12 @@
 import crypto from 'node:crypto';
 import path from 'node:path';
-import type {GetLoadContextFunction} from '@remix-run/express';
-import {createRequestHandler as expressCreateRequestHandler} from '@remix-run/express';
+import {
+  createRequestHandler as expressCreateRequestHandler,
+  type GetLoadContextFunction,
+} from '@remix-run/express';
+import {broadcastDevReady} from '@remix-run/node';
 import {wrapExpressCreateRequestHandler} from '@sentry/remix';
+import {watch} from 'chokidar';
 import compression from 'compression';
 import express from 'express';
 import helmet from 'helmet';
@@ -80,7 +84,6 @@ app.all(
   process.env.NODE_ENV === 'production'
     ? createRequestHandler({build: require(BUILD_DIR), getLoadContext})
     : (...args) => {
-        purgeRequireCache();
         const requestHandler = createRequestHandler({
           build: require(BUILD_DIR),
           getLoadContext,
@@ -97,8 +100,18 @@ startServer(port);
 function startServer(port: number) {
   const server = app.listen(port, () => {
     // Require the built app so we're ready when the first request comes in.
-    require(BUILD_DIR);
+    const build = require(BUILD_DIR);
     console.log(`✅ app ready: http://localhost:${port}`);
+
+    if (process.env.NODE_ENV === 'development') {
+      broadcastDevReady(build);
+
+      // Watch the build directory and reload the server on any changes.
+      watch(BUILD_DIR, {ignoreInitial: true}).on('all', () => {
+        const build = reimportServer();
+        broadcastDevReady(build);
+      });
+    }
   });
 
   process.on('SIGINT', () => server.close());
@@ -106,20 +119,11 @@ function startServer(port: number) {
   process.on('SIGTERM', () => server.close());
 }
 
-/**
- * Purge the require cache so we can reload any files that have changed. Gives us a sort of
- * "server-side HMR".
- *
- * Alternatively we could use nodemon to restart the server automagically when files change, or run
- * `remix dev` without the `--no-restart` flag.
- *
- * However, purging the cache (instead of restarting) seems to give us the best dev experience
- * right now. Revisit as Remix updates its dev server.
- */
-function purgeRequireCache() {
+function reimportServer() {
   for (const key in require.cache) {
     if (key.startsWith(BUILD_DIR)) {
       delete require.cache[key];
     }
   }
+  return require(BUILD_DIR);
 }
