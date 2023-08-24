@@ -54,5 +54,6 @@ export default defineConfig({
     command: `PORT=${TEST_PORT} npm run dev`,
     port: TEST_PORT,
     reuseExistingServer: !process.env.CI,
+    stdout: 'pipe',
   },
 });
