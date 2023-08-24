@@ -3,7 +3,7 @@ import {json} from '@remix-run/node';
 import {Form, Link, NavLink, Outlet, useLoaderData} from '@remix-run/react';
 import clsx from 'clsx';
 import {getNoteListItems} from '~/models/note.server';
-import {requireUserId} from '~/session.server';
+import {requireUserId} from '~/models/session.server';
 import {useUser} from '~/utils';
 
 export const loader = async ({request}: LoaderArgs) => {

@@ -11,7 +11,7 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 import {withSentry} from '@sentry/remix';
-import {getUser} from '~/session.server';
+import {getUser} from '~/models/session.server';
 import stylesheet from '~/tailwind.css';
 import {useNonce} from '~/utils/useNonce';
 

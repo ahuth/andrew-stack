@@ -8,7 +8,7 @@ import InputField from '~/components/InputField';
 import TextAreaField from '~/components/TextAreaField';
 import {noteSchema} from '~/models/note.schema';
 import {createNote} from '~/models/note.server';
-import {requireUserId} from '~/session.server';
+import {requireUserId} from '~/models/session.server';
 
 export const action = async ({request}: ActionArgs) => {
   const userId = await requireUserId(request);

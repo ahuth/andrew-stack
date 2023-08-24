@@ -5,9 +5,9 @@ import {json, redirect} from '@remix-run/node';
 import {Form, Link, useActionData, useSearchParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
 import InputField from '~/components/InputField';
+import {createUserSession, getUserId} from '~/models/session.server';
 import {loginSchema} from '~/models/user.schema';
 import {createUser, getUserByEmail} from '~/models/user.server';
-import {createUserSession, getUserId} from '~/session.server';
 import {safeRedirect} from '~/utils';
 
 export const meta: V2_MetaFunction = () => [{title: 'Sign Up'}];
