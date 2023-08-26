@@ -6,6 +6,7 @@ postgres-data
 /playwright-report
 /playwright/.cache
 /public/build
+/storybook-static
 /test-results
 
 # Logs
