@@ -110,3 +110,26 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
+
+  storybook:
+    name: 📚 Storybook
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 😻 Setup node
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          cache-dependency-path: ./package-lock.json
+          node-version-file: .node-version
+
+      - name: 📥 Install deps
+        run: npm install
+
+      - name: 📚 Build storybook
+        run: npm run storybook:build
+
+      - name: 🤟 Accessibility tests
+        run: npm run test:axeOnly

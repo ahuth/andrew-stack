@@ -4,7 +4,8 @@
 /.cache
 /build
 /node_modules
-/test-results
 /playwright-reporter
 /playwright/.cache
 /public/build
+/storybook-static
+/test-results

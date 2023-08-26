@@ -9,7 +9,12 @@ module.exports = {
     v2_normalizeFormMethod: true,
     v2_routeConvention: true,
   },
-  ignoredRouteFiles: ['**/.*', '**/*.test.{js,jsx,ts,tsx}'],
+  ignoredRouteFiles: [
+    '**/.*',
+    '**/*.spec.{js,jsx,ts,tsx}',
+    '**/*.stories.{js,jsx,ts,tsx}',
+    '**/*.test.{js,jsx,ts,tsx}',
+  ],
   postcss: true,
   serverModuleFormat: 'cjs',
   tailwind: true,

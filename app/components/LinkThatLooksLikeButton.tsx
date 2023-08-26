@@ -4,7 +4,7 @@ import type {ComponentProps} from 'react';
 
 const styles = {
   // prettier-ignore
-  primary: 'bg-blue-500 px-4 py-3 font-medium text-white hover:bg-blue-600',
+  primary: 'bg-blue-600 px-4 py-3 font-medium text-white hover:bg-blue-600',
   // prettier-ignore
   secondary: 'border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-700 shadow-sm hover:bg-blue-50 sm:px-8',
 };
