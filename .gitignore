@@ -3,7 +3,6 @@ postgres-data
 
 # Artifacts (from builds, tests, etc)
 /build
-/coverage
 /playwright-report
 /playwright/.cache
 /public/build
