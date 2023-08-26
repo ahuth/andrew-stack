@@ -57,6 +57,7 @@
     "@playwright/test": "^1.37.1",
     "@remix-run/dev": "^1.19.3",
     "@remix-run/eslint-config": "^1.19.3",
+    "@remix-run/testing": "^1.19.3",
     "@sinonjs/fake-timers": "^11.1.0",
     "@storybook/addon-a11y": "^7.3.2",
     "@storybook/addon-essentials": "^7.3.2",

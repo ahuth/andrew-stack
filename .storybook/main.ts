@@ -35,6 +35,7 @@ export default {
           ...config.resolve?.alias,
           // Custom path aliases. Keep in sync with `paths` in tsconfig.json.
           '~': path.resolve(__dirname, '../app'),
+          tests: path.resolve(__dirname, '../tests'),
         },
       },
 
