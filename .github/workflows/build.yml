@@ -117,6 +117,9 @@ jobs:
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
+        with:
+          # FIXME: remove fetch-depth if you're not using Chromatic.
+          fetch-depth: 0
 
       - name: 😻 Setup node
         uses: actions/setup-node@v3
@@ -133,3 +136,17 @@ jobs:
 
       - name: 🤟 Accessibility tests
         run: npm run test:axeOnly
+
+      # FIXME: remove this step if you're not using Chromatic.
+      # To use Chromatic for visual regression testing:
+      # 1. Log in to Chromatic - https://www.chromatic.com/
+      # 2. Create a new project - https://www.chromatic.com/docs/setup#sign-up
+      # 3. Add its unique project token to Github as a `CHROMATIC_PROJECT_TOKEN` secret
+      - name: 🌈 Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          autoAcceptChanges: main
+          exitOnceUploaded: true
+          onlyChanged: true
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: storybook-static
