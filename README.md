@@ -29,6 +29,7 @@ npx --yes create-remix@latest \
 ## What's in the template
 
 - Email/Password authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
+- [Chromatic](https://www.chromatic.com/) for visual regression testing
 - [Conform](https://conform.guide/) for Progressively Enhanced and fully type safe forms
 - [ESLint](https://eslint.org) for linting
 - [GitHub Actions](https://github.com/features/actions) for CI
