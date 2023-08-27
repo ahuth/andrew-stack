@@ -27,8 +27,10 @@
   "eslintIgnore": [
     "/node_modules",
     "/build",
+    "/playwright-data",
     "/public/build",
     "/postgres-data",
+    "/storybook-static",
     "!/.storybook"
   ],
   "dependencies": {
