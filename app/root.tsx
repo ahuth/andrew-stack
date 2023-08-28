@@ -12,11 +12,11 @@ import {
 } from '@remix-run/react';
 import {withSentry} from '@sentry/remix';
 import {getUser} from '~/models/session.server';
-import stylesheet from '~/tailwind.css';
+import tailwind from '~/tailwind.css';
 import {useNonce} from '~/utils/useNonce';
 
 export const links: LinksFunction = () => [
-  {rel: 'stylesheet', href: stylesheet},
+  {rel: 'stylesheet', href: tailwind},
   ...(cssBundleHref ? [{rel: 'stylesheet', href: cssBundleHref}] : []),
 ];
 
