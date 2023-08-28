@@ -51,18 +51,18 @@ export default function NewNotePage() {
   return (
     <Form className="flex w-full flex-col gap-2" method="post" {...form.props}>
       <InputField
+        domRef={titleRef}
         error={fields.title.error}
         fieldLabel="Title"
         name="title"
-        ref={titleRef}
         required
       />
 
       <TextAreaField
+        domRef={bodyRef}
         error={fields.body.error}
         fieldLabel="Body"
         name="body"
-        ref={bodyRef}
         required
         rows={8}
       />

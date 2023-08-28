@@ -80,20 +80,20 @@ export default function LoginPage() {
           <InputField
             autoComplete="email"
             autoFocus
+            domRef={emailRef}
             error={fields.email.error}
             fieldLabel="Email address"
             name="email"
-            ref={emailRef}
             required
             type="email"
           />
 
           <InputField
             autoComplete="current-password"
+            domRef={passwordRef}
             error={fields.password.error}
             fieldLabel="Password"
             name="password"
-            ref={passwordRef}
             required
             type="password"
           />

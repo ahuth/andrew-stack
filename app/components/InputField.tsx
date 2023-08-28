@@ -1,19 +1,18 @@
-import {
-  forwardRef,
-  useId,
-  type InputHTMLAttributes,
-  type ReactNode,
-} from 'react';
+import {useId, type InputHTMLAttributes, type ReactNode, type Ref} from 'react';
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
+  domRef?: Ref<HTMLInputElement>;
   error?: string | null;
   fieldLabel: ReactNode;
 };
 
-export default forwardRef<HTMLInputElement, Props>(function InputField(
-  {error, fieldLabel, id, ...rest},
-  ref,
-) {
+export default function InputField({
+  domRef,
+  error,
+  fieldLabel,
+  id,
+  ...rest
+}: Props) {
   const errorId = useId();
   const generatedId = useId();
   const inputId = id || generatedId;
@@ -26,7 +25,7 @@ export default forwardRef<HTMLInputElement, Props>(function InputField(
         aria-invalid={error ? true : undefined}
         className="input input-bordered w-full"
         id={inputId}
-        ref={ref}
+        ref={domRef}
         {...rest}
       />
       {error && (
@@ -36,4 +35,4 @@ export default forwardRef<HTMLInputElement, Props>(function InputField(
       )}
     </div>
   );
-});
+}
