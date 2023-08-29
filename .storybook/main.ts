@@ -37,6 +37,11 @@ export default {
           '~': path.resolve(__dirname, '../app'),
           tests: path.resolve(__dirname, '../tests'),
         },
+        fallback: {
+          ...config.resolve?.fallback,
+          // Suppress un-polyfilled module warning from @sinonjs/fake-timers.
+          timers: false,
+        },
       },
 
       module: {
