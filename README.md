@@ -37,6 +37,7 @@ npx --yes create-remix@latest \
 - [PostgreSQL](https://www.postgresql.org/) database
 - [Prettier](https://prettier.io) for code formatting
 - [Prisma](https://prisma.io) database ORM
+- [Render](https://render.com) as the deployment platform
 - [Sentry](https://docs.sentry.io/platforms/javascript/guides/remix/) for error reporting (on both client and server)
 - [Storybook](https://storybook.js.org/) component explorer
 - [Tailwind](https://tailwindcss.com/) for styling ❤️

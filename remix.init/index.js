@@ -27,12 +27,14 @@ module.exports = async function main({isTypeScript, rootDirectory}) {
     example_env: path.join(rootDirectory, '.env.example'),
     package_json: path.join(rootDirectory, 'package.json'),
     readme: path.join(rootDirectory, 'README.md'),
+    render_blueprint: path.join(rootDirectory, 'render.yaml'),
   };
 
   const replaceDefaultName = replaceDefaultTemplateName.bind(null, APP_NAME);
 
   await Promise.all([
     updateFile(PATHS.package_json, replaceDefaultName),
+    updateFile(PATHS.render_blueprint, replaceDefaultName),
     updateFile(PATHS.readme, (file) => {
       return (
         replaceDefaultName(file)
