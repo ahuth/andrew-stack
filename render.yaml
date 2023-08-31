@@ -3,7 +3,7 @@ services:
     name: andrew-stack-template-web
     runtime: docker
     branch: main
-    healthCheckPath: /
+    healthCheckPath: /health
     envVars:
       - key: SESSION_SECRET
         sync: false
