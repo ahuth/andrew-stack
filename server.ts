@@ -78,10 +78,10 @@ const getLoadContext: GetLoadContextFunction = (req, res) => {
 app.all(
   '*',
   process.env.NODE_ENV === 'production'
-    ? createRequestHandler({build: require(BUILD_DIR), getLoadContext})
+    ? createRequestHandler({build: reimportServer(), getLoadContext})
     : (...args) => {
         const requestHandler = createRequestHandler({
-          build: require(BUILD_DIR),
+          build: reimportServer(),
           getLoadContext,
           mode: process.env.NODE_ENV,
         });
@@ -95,8 +95,7 @@ startServer(port);
 
 function startServer(port: number) {
   const server = app.listen(port, () => {
-    // Require the built app so we're ready when the first request comes in.
-    const build = require(BUILD_DIR);
+    const build = reimportServer();
 
     if (process.env.NODE_ENV === 'development') {
       broadcastDevReady(build);
