@@ -78,8 +78,10 @@ const getLoadContext: GetLoadContextFunction = (req, res) => {
 app.all(
   '*',
   process.env.NODE_ENV === 'production'
-    ? createRequestHandler({build: reimportServer(), getLoadContext})
-    : (...args) => {
+    ? // In production, load the server files once (when the app first boots up).
+      createRequestHandler({build: reimportServer(), getLoadContext})
+    : // In development, load the server files again on every request.
+      (...args) => {
         const requestHandler = createRequestHandler({
           build: reimportServer(),
           getLoadContext,
