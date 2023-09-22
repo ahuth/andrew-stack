@@ -20,10 +20,7 @@
 Create an app from this template by running:
 
 ```sh
-npx --yes create-remix@latest \
-  --install \
-  --typescript \
-  --template ahuth/andrew-stack
+npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 ```
 
 ## What's in the template
