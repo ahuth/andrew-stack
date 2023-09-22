@@ -95,13 +95,12 @@ startServer(port);
 
 function startServer(port: number) {
   const server = app.listen(port, () => {
-    const build = reimportServer();
+    // Load the built app so we're ready when the first request comes in.
+    reimportServer();
 
     if (process.env.NODE_ENV === 'development') {
-      broadcastDevReady(build);
-
       // Watch the build directory and reload the server on any changes.
-      watch(BUILD_VERSION_PATH, {ignoreInitial: true}).on('all', () => {
+      watch(BUILD_VERSION_PATH).on('all', () => {
         const build = reimportServer();
         broadcastDevReady(build);
       });
