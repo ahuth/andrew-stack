@@ -97,7 +97,6 @@ function startServer(port: number) {
   const server = app.listen(port, () => {
     // Require the built app so we're ready when the first request comes in.
     const build = require(BUILD_DIR);
-    console.log(`✅ app ready: http://localhost:${port}`);
 
     if (process.env.NODE_ENV === 'development') {
       broadcastDevReady(build);
@@ -108,6 +107,8 @@ function startServer(port: number) {
         broadcastDevReady(build);
       });
     }
+
+    console.log(`✅ app ready: http://localhost:${port}`);
   });
 
   process.on('SIGINT', () => server.close());
