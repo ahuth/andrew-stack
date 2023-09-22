@@ -13,6 +13,7 @@ import morgan from 'morgan';
 
 const app = express();
 const BUILD_DIR = path.join(process.cwd(), 'build');
+const BUILD_VERSION_PATH = path.join(BUILD_DIR, 'version.txt');
 
 app.use((req, res, next) => {
   // /clean-urls/ -> /clean-urls
@@ -102,7 +103,7 @@ function startServer(port: number) {
       broadcastDevReady(build);
 
       // Watch the build directory and reload the server on any changes.
-      watch(BUILD_DIR, {ignoreInitial: true}).on('all', () => {
+      watch(BUILD_VERSION_PATH, {ignoreInitial: true}).on('all', () => {
         const build = reimportServer();
         broadcastDevReady(build);
       });
