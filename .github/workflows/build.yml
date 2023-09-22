@@ -92,7 +92,7 @@ jobs:
       - name: 🐳 Docker compose
         run: npm run docker
 
-      - name: Install Playwright Browsers
+      - name: 🧑‍🎤 Install Playwright Browsers
         run: npx playwright install chromium --with-deps
 
       - name: 🛠 Setup Database
@@ -133,6 +133,9 @@ jobs:
 
       - name: 📚 Build storybook
         run: npm run storybook:build
+
+      - name: 🧑‍🎤 Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
 
       - name: 🤟 Accessibility tests
         run: npm run test:axeOnly
