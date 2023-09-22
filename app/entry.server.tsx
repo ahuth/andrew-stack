@@ -1,6 +1,9 @@
 import {PassThrough} from 'node:stream';
-import type {DataFunctionArgs, EntryContext} from '@remix-run/node';
-import {Response} from '@remix-run/node';
+import {
+  createReadableStreamFromReadable,
+  type DataFunctionArgs,
+  type EntryContext,
+} from '@remix-run/node';
 import {RemixServer} from '@remix-run/react';
 import * as Sentry from '@sentry/remix';
 import isbot from 'isbot';
@@ -44,7 +47,7 @@ export default function handleRequest(
           responseHeaders.set('Content-Type', 'text/html');
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: responseStatusCode,
             }),

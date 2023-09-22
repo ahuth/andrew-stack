@@ -52,7 +52,7 @@ export function RemixStub(props: Props) {
   const RemixedStub = createRemixStub([
     {
       path: '/',
-      element: props.children,
+      Component: () => props.children,
       loader: props.loader,
       action: props.action,
     },

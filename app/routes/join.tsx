@@ -1,6 +1,10 @@
 import {useForm} from '@conform-to/react';
 import {parse} from '@conform-to/zod';
-import type {ActionArgs, LoaderArgs, V2_MetaFunction} from '@remix-run/node';
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
 import {Form, Link, useActionData, useSearchParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
@@ -10,15 +14,15 @@ import {loginSchema} from '~/models/user.schema';
 import {createUser, getUserByEmail} from '~/models/user.server';
 import {safeRedirect} from '~/utils';
 
-export const meta: V2_MetaFunction = () => [{title: 'Sign Up'}];
+export const meta: MetaFunction = () => [{title: 'Sign Up'}];
 
-export const loader = async ({request}: LoaderArgs) => {
+export const loader = async ({request}: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   if (userId) return redirect('/');
   return json({});
 };
 
-export const action = async ({request}: ActionArgs) => {
+export const action = async ({request}: ActionFunctionArgs) => {
   const formData = await request.formData();
   const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
   const submission = parse(formData, {schema: loginSchema});

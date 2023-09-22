@@ -1,6 +1,6 @@
 import {useForm} from '@conform-to/react';
 import {parse} from '@conform-to/zod';
-import type {ActionArgs} from '@remix-run/node';
+import type {ActionFunctionArgs} from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
@@ -10,7 +10,7 @@ import {noteSchema} from '~/models/note.schema';
 import {createNote} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
 
-export const action = async ({request}: ActionArgs) => {
+export const action = async ({request}: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const formData = await request.formData();
   const submission = parse(formData, {schema: noteSchema});
