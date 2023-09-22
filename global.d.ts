@@ -7,7 +7,6 @@ declare global {
      * errors.
      */
     ENV?: {
-      SENTRY_DSN?: string;
       NODE_ENV: string;
     };
   }

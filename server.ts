@@ -1,11 +1,10 @@
 import crypto from 'node:crypto';
 import path from 'node:path';
 import {
-  createRequestHandler as expressCreateRequestHandler,
+  createRequestHandler,
   type GetLoadContextFunction,
 } from '@remix-run/express';
 import {broadcastDevReady} from '@remix-run/node';
-import {wrapExpressCreateRequestHandler} from '@sentry/remix';
 import {watch} from 'chokidar';
 import compression from 'compression';
 import express from 'express';
@@ -68,10 +67,6 @@ app.use(
 app.use(express.static('public', {maxAge: '1h'}));
 
 app.use(morgan('tiny'));
-
-const createRequestHandler = process.env.SENTRY_DSN
-  ? wrapExpressCreateRequestHandler(expressCreateRequestHandler)
-  : expressCreateRequestHandler;
 
 const getLoadContext: GetLoadContextFunction = (req, res) => {
   return {

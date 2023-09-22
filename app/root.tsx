@@ -10,7 +10,6 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react';
-import {withSentry} from '@sentry/remix';
 import {getUser} from '~/models/session.server';
 import tailwind from '~/tailwind.css';
 import {useNonce} from '~/utils/useNonce';
@@ -21,20 +20,17 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({request}: LoaderFunctionArgs) => {
-  const {NODE_ENV, SENTRY_DSN} = process.env;
+  const {NODE_ENV} = process.env;
 
   return json({
     user: await getUser(request),
     ENV: {
       NODE_ENV,
-      SENTRY_DSN,
     },
   });
 };
 
-export default withSentry(App);
-
-function App() {
+export default function App() {
   const data = useLoaderData<typeof loader>();
   const nonce = useNonce();
 
