@@ -3,20 +3,10 @@ const path = require('node:path');
 const {dedent} = require('ts-dedent');
 
 /**
- * Prepare the generated repo for development by
- * - updating the app name in various places
- * - copying and modifying some files
- * - etc.
- *
- * @param {{isTypeScript: boolean, packageManager: string, rootDirectory: string}} param0
+ * Prepare the generated repo for development by modifying some of its files.
+ * @param {{rootDirectory: string}} config
  */
-module.exports = async function main({isTypeScript, rootDirectory}) {
-  if (!isTypeScript) {
-    console.warn(
-      "I see you've asked for TypeScript to be removed from the project 🧐. That option is not supported, and the project will still be generated with TypeScript.",
-    );
-  }
-
+module.exports = async function main({rootDirectory}) {
   const DIR_NAME = path.basename(rootDirectory);
   const APP_NAME = DIR_NAME
     // get rid of anything that's not allowed in an app name
@@ -30,6 +20,9 @@ module.exports = async function main({isTypeScript, rootDirectory}) {
     render_blueprint: path.join(rootDirectory, 'render.yaml'),
   };
 
+  /**
+   * @type {function(string): string}
+   */
   const replaceDefaultName = replaceDefaultTemplateName.bind(null, APP_NAME);
 
   await Promise.all([
@@ -82,5 +75,5 @@ async function updateFile(path, updater) {
  * @param {string} appName
  */
 function replaceDefaultTemplateName(appName, content) {
-  return content.replaceAll('andrew-stack-template', appName);
+  return content.replace(/andrew-stack-template/g, appName);
 }
