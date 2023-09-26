@@ -1,6 +1,5 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const {dedent} = require('ts-dedent');
 
 /**
  * Prepare the generated repo for development by modifying some of its files.
@@ -46,16 +45,6 @@ module.exports = async function main({rootDirectory}) {
     }),
     fs.copyFile(PATHS.example_env, PATHS.env),
   ]);
-
-  console.log(
-    dedent`
-      Setup is almost complete. Follow these steps to finish initialization:
-
-      - Follow the setup steps in the README.md
-
-      - If you haven't already, initialize the git repo with \`git init\`
-    `,
-  );
 };
 
 /**
