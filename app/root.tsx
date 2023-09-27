@@ -1,3 +1,4 @@
+import {MantineProvider, ColorSchemeScript} from '@mantine/core';
 import {cssBundleHref} from '@remix-run/css-bundle';
 import type {LinksFunction, LoaderFunctionArgs} from '@remix-run/node';
 import {json} from '@remix-run/node';
@@ -13,6 +14,7 @@ import {
 import {getUser} from '~/models/session.server';
 import tailwind from '~/tailwind.css';
 import {useNonce} from '~/utils/useNonce';
+import '@mantine/core/styles.css';
 
 export const links: LinksFunction = () => [
   {rel: 'stylesheet', href: tailwind},
@@ -41,9 +43,12 @@ export default function App() {
         <meta content="width=device-width,initial-scale=1" name="viewport" />
         <Meta />
         <Links />
+        <ColorSchemeScript nonce={nonce} />
       </head>
       <body className="h-full">
-        <Outlet />
+        <MantineProvider>
+          <Outlet />
+        </MantineProvider>
         <ScrollRestoration nonce={nonce} />
         <script
           // Pass environment data from the server to the client. Keep the global.d.ts types in
