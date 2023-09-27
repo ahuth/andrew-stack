@@ -1,3 +1,4 @@
+import {Button, Title} from '@mantine/core';
 import type {ActionFunctionArgs, LoaderFunctionArgs} from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
 import {
@@ -35,16 +36,11 @@ export default function NoteDetailsPage() {
 
   return (
     <div>
-      <h3 className="text-2xl font-bold">{data.note.title}</h3>
+      <Title order={3}>{data.note.title}</Title>
       <p className="py-6">{data.note.body}</p>
       <hr className="my-4" />
       <Form method="post">
-        <button
-          className="ounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-          type="submit"
-        >
-          Delete
-        </button>
+        <Button type="submit">Delete</Button>
       </Form>
     </div>
   );

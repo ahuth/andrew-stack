@@ -1,6 +1,6 @@
+import {Button, Title} from '@mantine/core';
 import type {MetaFunction} from '@remix-run/node';
 import {Link} from '@remix-run/react';
-import LinkThatLooksLikeButton from '~/components/LinkThatLooksLikeButton';
 import {useOptionalUser} from '~/utils';
 
 export const meta: MetaFunction = () => [{title: 'Remix Notes'}];
@@ -15,25 +15,25 @@ export default function Index() {
         </Link>
         <div className="flex gap-4">
           {user ? (
-            <LinkThatLooksLikeButton to="/notes" type="secondary">
+            <Button component={Link} to="/notes" variant="outline">
               View notes
-            </LinkThatLooksLikeButton>
+            </Button>
           ) : (
             <>
-              <LinkThatLooksLikeButton to="/join" type="secondary">
+              <Button component={Link} to="/join" variant="outline">
                 Sign up
-              </LinkThatLooksLikeButton>
-              <LinkThatLooksLikeButton to="/login" type="primary">
+              </Button>
+              <Button component={Link} to="/login" variant="filled">
                 Log in
-              </LinkThatLooksLikeButton>
+              </Button>
             </>
           )}
         </div>
       </nav>
       <main className="mx-auto max-w-3xl py-12 sm:py-24">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">
+        <Title className="sm:text-center" order={1}>
           Keep track of notes...
-        </h1>
+        </Title>
         <p className="mt-6 text-lg text-slate-600 sm:text-center">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.

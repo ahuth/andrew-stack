@@ -1,11 +1,10 @@
 import {useForm} from '@conform-to/react';
 import {parse} from '@conform-to/zod';
+import {Button, Textarea, TextInput} from '@mantine/core';
 import type {ActionFunctionArgs} from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
-import InputField from '~/components/InputField';
-import TextAreaField from '~/components/TextAreaField';
 import {noteSchema} from '~/models/note.schema';
 import {createNote} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
@@ -50,30 +49,25 @@ export default function NewNotePage() {
 
   return (
     <Form className="flex w-full flex-col gap-2" method="post" {...form.props}>
-      <InputField
-        domRef={titleRef}
+      <TextInput
         error={fields.title.error}
-        fieldLabel="Title"
+        label="Title"
         name="title"
+        ref={titleRef}
         required
       />
 
-      <TextAreaField
-        domRef={bodyRef}
+      <Textarea
         error={fields.body.error}
-        fieldLabel="Body"
+        label="Body"
         name="body"
+        ref={bodyRef}
         required
         rows={8}
       />
 
       <div className="text-right">
-        <button
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-          type="submit"
-        >
-          Save
-        </button>
+        <Button type="submit">Save</Button>
       </div>
     </Form>
   );

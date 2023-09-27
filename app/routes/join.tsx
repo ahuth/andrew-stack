@@ -1,14 +1,15 @@
 import {useForm} from '@conform-to/react';
 import {parse} from '@conform-to/zod';
+import {Button, PasswordInput, TextInput} from '@mantine/core';
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
 } from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
-import {Form, Link, useActionData, useSearchParams} from '@remix-run/react';
+import {Form, useActionData, useSearchParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
-import InputField from '~/components/InputField';
+import Link from '~/components/Link';
 import {createUserSession, getUserId} from '~/models/session.server';
 import {loginSchema} from '~/models/user.schema';
 import {createUser, getUserByEmail} from '~/models/user.server';
@@ -85,39 +86,36 @@ export default function Join() {
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form className="space-y-6" method="post" {...form.props}>
-          <InputField
+          <TextInput
             autoComplete="email"
             autoFocus
-            domRef={emailRef}
             error={fields.email.error}
-            fieldLabel="Email address"
+            label="Email address"
             name="email"
+            ref={emailRef}
             required
             type="email"
           />
 
-          <InputField
+          <PasswordInput
             autoComplete="new-password"
-            domRef={passwordRef}
             error={fields.password.error}
-            fieldLabel="Password"
+            label="Password"
             name="password"
+            ref={passwordRef}
             required
-            type="password"
           />
 
           <input name="redirectTo" type="hidden" value={redirectTo} />
-          <button
-            className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-            type="submit"
-          >
+
+          <Button fullWidth type="submit">
             Create Account
-          </button>
+          </Button>
+
           <div className="flex items-center justify-center">
             <div className="text-center text-sm">
               Already have an account?{' '}
               <Link
-                className="text-blue-500 underline"
                 to={{
                   pathname: '/login',
                   search: searchParams.toString(),
