@@ -107,14 +107,17 @@ export default function Join() {
           />
 
           <input name="redirectTo" type="hidden" value={redirectTo} />
-          <button className="btn btn-primary w-full normal-case" type="submit">
+          <button
+            className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
+            type="submit"
+          >
             Create Account
           </button>
           <div className="flex items-center justify-center">
             <div className="text-center text-sm">
               Already have an account?{' '}
               <Link
-                className="link-primary link"
+                className="text-blue-500 underline"
                 to={{
                   pathname: '/login',
                   search: searchParams.toString(),

@@ -23,14 +23,14 @@ export default function InputField({
       <input
         aria-describedby={error ? errorId : undefined}
         aria-invalid={error ? true : undefined}
-        className="input input-bordered w-full"
+        className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
         id={inputId}
         ref={domRef}
         {...rest}
       />
       {error && (
-        <div className="label" id={errorId}>
-          <span className="label-text-alt text-red-700">{error}</span>
+        <div className="pt-1 text-red-700" id={errorId}>
+          {error}
         </div>
       )}
     </div>
