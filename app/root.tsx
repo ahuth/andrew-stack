@@ -11,6 +11,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react';
+import theme from './theme';
 import {getUser} from '~/models/session.server';
 import tailwind from '~/tailwind.css';
 import {useNonce} from '~/utils/useNonce';
@@ -46,7 +47,7 @@ export default function App() {
         <ColorSchemeScript nonce={nonce} />
       </head>
       <body className="h-full">
-        <MantineProvider>
+        <MantineProvider theme={theme}>
           <Outlet />
         </MantineProvider>
         <ScrollRestoration nonce={nonce} />
