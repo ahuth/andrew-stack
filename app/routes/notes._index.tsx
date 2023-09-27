@@ -1,12 +1,10 @@
-import {Link} from '@remix-run/react';
+import Link from '~/components/Link';
 
 export default function NoteIndexPage() {
   return (
     <p>
       No note selected. Select a note on the left, or{' '}
-      <Link className="link-primary link" to="new">
-        create a new note.
-      </Link>
+      <Link to="new">create a new note.</Link>
     </p>
   );
 }

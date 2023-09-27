@@ -30,6 +30,7 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 - [Conform](https://conform.guide/) for Progressively Enhanced and fully type safe forms
 - [ESLint](https://eslint.org) for linting
 - [GitHub Actions](https://github.com/features/actions) for CI
+- [Mantine](https://mantine.dev/) React component library
 - [Playwright](https://playwright.dev/) for [Application tests](/tests/application/README.md) (Remix Integration tests)
 - [PostgreSQL](https://www.postgresql.org/) database
 - [Prettier](https://prettier.io) for code formatting
