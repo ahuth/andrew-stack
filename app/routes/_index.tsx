@@ -31,7 +31,7 @@ export default function Index() {
         </div>
       </nav>
       <main className="mx-auto max-w-3xl py-12 sm:py-24">
-        <Title className="sm:text-center" order={1}>
+        <Title className="!text-4xl sm:text-center sm:!text-6xl" order={1}>
           Keep track of notes...
         </Title>
         <p className="mt-6 text-lg text-slate-600 sm:text-center">
