@@ -40,7 +40,6 @@ export const action = async ({request}: ActionFunctionArgs) => {
         ...submission,
         error: {
           email: ['A user already exists with this email'],
-          password: [],
         },
       },
       {status: 400},

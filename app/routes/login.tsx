@@ -42,7 +42,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
     return json(
       {
         ...submission,
-        error: {email: ['Invalid email or password'], password: []},
+        error: {email: ['Invalid email or password']},
       },
       {status: 400},
     );
