@@ -35,7 +35,6 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 - [PostgreSQL](https://www.postgresql.org/) database
 - [Prettier](https://prettier.io) for code formatting
 - [Prisma](https://prisma.io) database ORM
-- [Render](https://render.com) as the deployment platform
 - [Storybook](https://storybook.js.org/) component explorer
 - [Tailwind](https://tailwindcss.com/) for styling ❤️
 - [TypeScript](https://typescriptlang.org) for type safety!
