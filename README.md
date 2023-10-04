@@ -28,12 +28,13 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 - Email/Password authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
 - [Chromatic](https://www.chromatic.com/) for visual regression testing
 - [Conform](https://conform.guide/) for Progressively Enhanced and fully type safe forms
+- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) containerization
 - [ESLint](https://eslint.org) for linting
 - [GitHub Actions](https://github.com/features/actions) for CI
 - [Mantine](https://mantine.dev/) React component library
-- [Playwright](https://playwright.dev/) for [Application tests](/tests/application/README.md) (Remix Integration tests)
+- [Playwright](https://playwright.dev/) for integration tests
 - [PostgreSQL](https://www.postgresql.org/) database
-- [Prettier](https://prettier.io) for code formatting
+- [Prettier](https://prettier.io) code formatting
 - [Prisma](https://prisma.io) database ORM
 - [Storybook](https://storybook.js.org/) component explorer
 - [Tailwind](https://tailwindcss.com/) for styling ❤️
