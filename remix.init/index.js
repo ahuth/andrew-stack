@@ -14,6 +14,7 @@ module.exports = async function main({rootDirectory}) {
   const PATHS = {
     env: path.join(rootDirectory, '.env'),
     example_env: path.join(rootDirectory, '.env.example'),
+    license: path.join(rootDirectory, 'LICENSE.md'),
     package_json: path.join(rootDirectory, 'package.json'),
     readme: path.join(rootDirectory, 'README.md'),
   };
@@ -42,6 +43,7 @@ module.exports = async function main({rootDirectory}) {
       );
     }),
     fs.copyFile(PATHS.example_env, PATHS.env),
+    fs.rm(PATHS.license),
   ]);
 };
 
