@@ -1,7 +1,6 @@
 {
   "name": "andrew-stack-template",
   "private": true,
-  "sideEffects": false,
   "scripts": {
     "build": "run-s build:*",
     "build:remix": "remix build",
