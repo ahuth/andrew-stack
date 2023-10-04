@@ -30,9 +30,8 @@ module.exports = async function main({rootDirectory}) {
       return (
         replaceDefaultName(file)
           .replace('# Remix Andrew Stack', `# ${APP_NAME}`)
-          // Remove parts of the readme that are only relevant to the template, not the generated app.
-          //
-          // These sections are marked with magic comments.
+          // Remove parts of the readme that are only relevant to the template, not the generated
+          // app. These sections are marked with magic comments.
           //
           // Of note:
           // - `s` flag to match newlines with `.`  ━━━━━━━━━━━━━━━━━━━┓
