@@ -25,11 +25,11 @@
     "validate": "run-p \"test -- --run\" lint types"
   },
   "eslintIgnore": [
-    "/node_modules",
     "/build",
+    "/node_modules",
     "/playwright-report",
-    "/public/build",
     "/postgres-data",
+    "/public/build",
     "/storybook-static",
     "!/.storybook"
   ],
