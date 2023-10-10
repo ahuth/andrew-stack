@@ -7,6 +7,7 @@ declare global {
      * errors.
      */
     ENV?: {
+      GIT_COMMIT?: string;
       NODE_ENV: string;
     };
   }

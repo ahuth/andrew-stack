@@ -28,6 +28,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
   return json({
     user: await getUser(request),
     ENV: {
+      GIT_COMMIT: process.env.GIT_COMMIT,
       NODE_ENV,
     },
   });
@@ -42,6 +43,7 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width,initial-scale=1" name="viewport" />
+        <meta content={data.ENV.GIT_COMMIT || 'unknown'} name="version" />
         <Meta />
         <Links />
         <ColorSchemeScript nonce={nonce} />
