@@ -1,5 +1,5 @@
 import type {AgnosticRouteObject} from '@remix-run/router';
-import {unstable_createRemixStub as createRemixStub} from '@remix-run/testing';
+import {createRemixStub} from '@remix-run/testing';
 import type {ReactNode} from 'react';
 
 export {
