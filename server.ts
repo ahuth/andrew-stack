@@ -69,7 +69,7 @@ app.use(express.static('public', {maxAge: '1h'}));
 
 app.use(morgan('tiny'));
 
-const getLoadContext: GetLoadContextFunction = (req, res) => {
+const getLoadContext: GetLoadContextFunction = (_req, res) => {
   return {
     cspNonce: res.locals.cspNonce,
   };
