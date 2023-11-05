@@ -9,4 +9,7 @@ module.exports = {
   postcss: true,
   serverModuleFormat: 'cjs',
   tailwind: true,
+  future: {
+    v3_fetcherPersist: true,
+  },
 };
