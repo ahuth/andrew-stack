@@ -45,6 +45,7 @@ export default function handleRequest(
 
           pipe(body);
         },
+        nonce: loadContext?.cspNonce,
         onShellError(error: unknown) {
           reject(error);
         },
