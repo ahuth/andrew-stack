@@ -69,11 +69,19 @@ app.use(express.static('public', {maxAge: '1h'}));
 
 app.use(morgan('tiny'));
 
+// Customize the LoadContext, which entry.server.tsx and loaders can access.
 const getLoadContext: GetLoadContextFunction = (_req, res) => {
   return {
     cspNonce: res.locals.cspNonce,
   };
 };
+
+// Augment Remix's AppLoadContext with our additions in `getLoadContext`.
+declare module '@remix-run/server-runtime' {
+  interface AppLoadContext {
+    cspNonce: string;
+  }
+}
 
 app.all(
   '*',
