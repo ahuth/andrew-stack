@@ -1,6 +1,9 @@
 import {cssBundleHref} from '@remix-run/css-bundle';
-import type {LinksFunction, LoaderFunctionArgs} from '@remix-run/node';
-import {json} from '@remix-run/node';
+import {
+  json,
+  type LinksFunction,
+  type LoaderFunctionArgs,
+} from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -20,7 +23,7 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{rel: 'stylesheet', href: cssBundleHref}] : []),
 ];
 
-export const loader = async ({request}: LoaderFunctionArgs) => {
+export async function loader({request}: LoaderFunctionArgs) {
   const {NODE_ENV} = process.env;
 
   return json({
@@ -30,7 +33,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
       NODE_ENV,
     },
   });
-};
+}
 
 export default function App() {
   const data = useLoaderData<typeof loader>();

@@ -1,6 +1,10 @@
 import {Button, Typography} from '@mui/joy';
-import type {ActionFunctionArgs, LoaderFunctionArgs} from '@remix-run/node';
-import {json, redirect} from '@remix-run/node';
+import {
+  json,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from '@remix-run/node';
 import {
   Form,
   isRouteErrorResponse,
@@ -11,7 +15,7 @@ import invariant from 'tiny-invariant';
 import {deleteNote, getNote} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
 
-export const loader = async ({params, request}: LoaderFunctionArgs) => {
+export async function loader({params, request}: LoaderFunctionArgs) {
   const userId = await requireUserId(request);
   invariant(params.noteId, 'noteId not found');
 
@@ -20,16 +24,16 @@ export const loader = async ({params, request}: LoaderFunctionArgs) => {
     throw new Response('Not Found', {status: 404});
   }
   return json({note});
-};
+}
 
-export const action = async ({params, request}: ActionFunctionArgs) => {
+export async function action({params, request}: ActionFunctionArgs) {
   const userId = await requireUserId(request);
   invariant(params.noteId, 'noteId not found');
 
   await deleteNote({id: params.noteId, userId});
 
   return redirect('/notes');
-};
+}
 
 export default function NoteDetailsPage() {
   const data = useLoaderData<typeof loader>();

@@ -8,12 +8,13 @@ import {
   Input,
   Typography,
 } from '@mui/joy';
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
+import {
+  json,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction,
 } from '@remix-run/node';
-import {json, redirect} from '@remix-run/node';
 import {Form, useActionData, useSearchParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
 import Link from '~/components/Link';
@@ -24,13 +25,13 @@ import {safeRedirect} from '~/utils';
 
 export const meta: MetaFunction = () => [{title: 'Sign Up'}];
 
-export const loader = async ({request}: LoaderFunctionArgs) => {
+export async function loader({request}: LoaderFunctionArgs) {
   const userId = await getUserId(request);
   if (userId) return redirect('/');
   return json({});
-};
+}
 
-export const action = async ({request}: ActionFunctionArgs) => {
+export async function action({request}: ActionFunctionArgs) {
   const formData = await request.formData();
   const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
   const submission = parse(formData, {schema: loginSchema});
@@ -64,7 +65,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
     request,
     userId: user.id,
   });
-};
+}
 
 export default function Join() {
   const [searchParams] = useSearchParams();

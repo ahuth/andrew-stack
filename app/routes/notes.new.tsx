@@ -8,15 +8,14 @@ import {
   Input,
   Textarea,
 } from '@mui/joy';
-import type {ActionFunctionArgs} from '@remix-run/node';
-import {json, redirect} from '@remix-run/node';
+import {json, redirect, type ActionFunctionArgs} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
 import {noteSchema} from '~/models/note.schema';
 import {createNote} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
 
-export const action = async ({request}: ActionFunctionArgs) => {
+export async function action({request}: ActionFunctionArgs) {
   const userId = await requireUserId(request);
   const formData = await request.formData();
   const submission = parse(formData, {schema: noteSchema});
@@ -32,7 +31,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
   });
 
   return redirect(`/notes/${note.id}`);
-};
+}
 
 export default function NewNotePage() {
   const lastSubmission = useActionData<typeof action>();
