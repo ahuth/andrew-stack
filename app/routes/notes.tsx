@@ -1,4 +1,4 @@
-import {Button, Title} from '@mantine/core';
+import {Button, Typography} from '@mui/joy';
 import type {LoaderFunctionArgs} from '@remix-run/node';
 import {json} from '@remix-run/node';
 import {Form, Link, NavLink, Outlet, useLoaderData} from '@remix-run/react';
@@ -19,13 +19,13 @@ export default function NotesPage() {
 
   return (
     <div className="flex h-full min-h-screen flex-col">
-      <header className="flex items-center justify-between bg-slate-800 p-4 text-white">
-        <Title order={1}>
+      <header className="flex items-center justify-between bg-slate-800 p-4">
+        <Typography className="!text-white" level="h1">
           <Link to=".">Notes</Link>
-        </Title>
-        <p>{user.email}</p>
+        </Typography>
+        <Typography className="!text-white">{user.email}</Typography>
         <Form action="/logout" method="post">
-          <Button color="gray" type="submit" variant="filled">
+          <Button color="neutral" type="submit" variant="solid">
             Logout
           </Button>
         </Form>

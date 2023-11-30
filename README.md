@@ -31,7 +31,7 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) containerization
 - [ESLint](https://eslint.org) for linting
 - [GitHub Actions](https://github.com/features/actions) for CI
-- [Mantine](https://mantine.dev/) React component library
+- [Joy UI](https://mui.com/joy-ui/getting-started/) React component library
 - [Playwright](https://playwright.dev/) for integration tests
 - [PostgreSQL](https://www.postgresql.org/) database
 - [Prettier](https://prettier.io) code formatting

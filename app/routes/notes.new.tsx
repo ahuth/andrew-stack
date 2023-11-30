@@ -1,6 +1,13 @@
 import {useForm} from '@conform-to/react';
 import {parse} from '@conform-to/zod';
-import {Button, Textarea, TextInput} from '@mantine/core';
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  Textarea,
+} from '@mui/joy';
 import type {ActionFunctionArgs} from '@remix-run/node';
 import {json, redirect} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
@@ -30,7 +37,7 @@ export const action = async ({request}: ActionFunctionArgs) => {
 export default function NewNotePage() {
   const lastSubmission = useActionData<typeof action>();
   const titleRef = useRef<HTMLInputElement>(null);
-  const bodyRef = useRef<HTMLTextAreaElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   const [form, fields] = useForm({
     lastSubmission,
@@ -49,22 +56,21 @@ export default function NewNotePage() {
 
   return (
     <Form className="flex w-full flex-col gap-2" method="post" {...form.props}>
-      <TextInput
-        error={fields.title.error}
-        label="Title"
-        name="title"
-        ref={titleRef}
-        required
-      />
+      <FormControl error={!!fields.title.error}>
+        <FormLabel>Title</FormLabel>
+        <Input name="title" ref={titleRef} required />
+        {fields.title.error && (
+          <FormHelperText>{fields.title.error}</FormHelperText>
+        )}
+      </FormControl>
 
-      <Textarea
-        error={fields.body.error}
-        label="Body"
-        name="body"
-        ref={bodyRef}
-        required
-        rows={8}
-      />
+      <FormControl error={!!fields.body.error}>
+        <FormLabel>Body</FormLabel>
+        <Textarea minRows={8} name="body" ref={bodyRef} required />
+        {fields.body.error && (
+          <FormHelperText>{fields.body.error}</FormHelperText>
+        )}
+      </FormControl>
 
       <div className="text-right">
         <Button type="submit">Save</Button>

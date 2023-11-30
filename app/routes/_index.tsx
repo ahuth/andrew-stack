@@ -1,4 +1,4 @@
-import {Button, Title} from '@mantine/core';
+import {Button, Typography} from '@mui/joy';
 import type {MetaFunction} from '@remix-run/node';
 import {Link} from '@remix-run/react';
 import {useOptionalUser} from '~/utils';
@@ -15,15 +15,15 @@ export default function Index() {
         </Link>
         <div className="flex gap-4">
           {user ? (
-            <Button component={Link} to="/notes" variant="outline">
+            <Button component={Link} to="/notes" variant="outlined">
               View notes
             </Button>
           ) : (
             <>
-              <Button component={Link} to="/join" variant="outline">
+              <Button component={Link} to="/join" variant="outlined">
                 Sign up
               </Button>
-              <Button component={Link} to="/login" variant="filled">
+              <Button component={Link} to="/login" variant="solid">
                 Log in
               </Button>
             </>
@@ -31,13 +31,13 @@ export default function Index() {
         </div>
       </nav>
       <main className="mx-auto max-w-3xl py-12 sm:py-24">
-        <Title className="!text-4xl sm:text-center sm:!text-6xl" order={1}>
+        <Typography className="!text-6xl sm:text-center" level="h1">
           Keep track of notes...
-        </Title>
-        <p className="mt-6 text-lg text-slate-600 sm:text-center">
+        </Typography>
+        <Typography className="!mt-6 sm:text-center" level="body-lg">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
+        </Typography>
       </main>
     </div>
   );
