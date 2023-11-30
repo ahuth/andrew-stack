@@ -9,7 +9,7 @@
     "dev:server": "node --inspect --require ./node_modules/dotenv/config ./build/server.js",
     "docker": "docker compose up --detach",
     "docker:down": "docker compose down",
-    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
+    "lint": "eslint --max-warnings 0 .",
     "prod": "NODE_ENV=production node ./build/server.js",
     "routes": "remix routes",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
