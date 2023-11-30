@@ -1,6 +1,14 @@
 import {useForm} from '@conform-to/react';
 import {parse} from '@conform-to/zod';
-import {Button, Checkbox, PasswordInput, TextInput} from '@mantine/core';
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  Typography,
+} from '@mui/joy';
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
@@ -82,25 +90,34 @@ export default function LoginPage() {
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form className="space-y-6" method="post" {...form.props}>
-          <TextInput
-            autoComplete="email"
-            autoFocus
-            error={fields.email.error}
-            label="Email address"
-            name="email"
-            ref={emailRef}
-            required
-            type="email"
-          />
+          <FormControl error={!!fields.email.error}>
+            <FormLabel>Email address</FormLabel>
+            <Input
+              autoComplete="email"
+              autoFocus
+              name="email"
+              ref={emailRef}
+              required
+              type="email"
+            />
+            {fields.email.error && (
+              <FormHelperText>{fields.email.error}</FormHelperText>
+            )}
+          </FormControl>
 
-          <PasswordInput
-            autoComplete="current-password"
-            error={fields.password.error}
-            label="Password"
-            name="password"
-            ref={passwordRef}
-            required
-          />
+          <FormControl error={!!fields.password.error}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              autoComplete="current-password"
+              name="password"
+              ref={passwordRef}
+              required
+              type="password"
+            />
+            {fields.password.error && (
+              <FormHelperText>{fields.password.error}</FormHelperText>
+            )}
+          </FormControl>
 
           <input name="redirectTo" type="hidden" value={redirectTo} />
 
@@ -109,17 +126,24 @@ export default function LoginPage() {
           </Button>
 
           <div className="flex items-center justify-between">
-            <Checkbox label="Remember me" name="remember" />
-            <div className="text-center text-sm">
-              Don't have an account?{' '}
-              <Link
-                to={{
-                  pathname: '/join',
-                  search: searchParams.toString(),
-                }}
-              >
-                Sign up
-              </Link>
+            <Checkbox
+              defaultChecked
+              label="Remember me"
+              name="remember"
+              size="sm"
+            />
+            <div>
+              <Typography level="body-sm">
+                Don't have an account?{' '}
+                <Link
+                  to={{
+                    pathname: '/join',
+                    search: searchParams.toString(),
+                  }}
+                >
+                  Sign up
+                </Link>
+              </Typography>
             </div>
           </div>
         </Form>
