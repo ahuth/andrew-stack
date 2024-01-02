@@ -9,7 +9,7 @@
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "module": "ES2022",
+    "module": "CommonJS",
     "moduleResolution": "node",
     // Remix takes care of building everything in `remix build`.
     "noEmit": true,
@@ -20,7 +20,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2022",
+    "target": "ES2019",
     "types": [
       "vitest/globals",
     ],
