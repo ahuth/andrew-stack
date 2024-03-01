@@ -1,7 +1,7 @@
-import {Button, Typography} from '@mui/joy';
 import {json, type LoaderFunctionArgs} from '@remix-run/node';
 import {Form, Link, NavLink, Outlet, useLoaderData} from '@remix-run/react';
 import clsx from 'clsx';
+import {Button} from '~/components/ui/button';
 import {getNoteListItems} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
 import {useUser} from '~/utils';
@@ -19,12 +19,12 @@ export default function NotesPage() {
   return (
     <div className="flex h-full min-h-screen flex-col">
       <header className="flex items-center justify-between bg-slate-800 p-4">
-        <Typography className="!text-white" level="h1">
+        <h1 className="text-4xl text-white">
           <Link to=".">Notes</Link>
-        </Typography>
-        <Typography className="!text-white">{user.email}</Typography>
+        </h1>
+        <p className="text-white">{user.email}</p>
         <Form action="/logout" method="post">
-          <Button color="neutral" type="submit" variant="solid">
+          <Button type="submit" variant="secondary">
             Logout
           </Button>
         </Form>
