@@ -1,12 +1,6 @@
-import {cssBundleHref} from '@remix-run/css-bundle';
-import {
-  json,
-  type LinksFunction,
-  type LoaderFunctionArgs,
-} from '@remix-run/node';
+import {json, type LoaderFunctionArgs} from '@remix-run/node';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -14,14 +8,9 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 import {getUser} from '~/models/session.server';
-import tailwind from '~/tailwind.css';
 import {useNonce} from '~/utils/useNonce';
 import '@fontsource/inter/index.css';
-
-export const links: LinksFunction = () => [
-  {rel: 'stylesheet', href: tailwind},
-  ...(cssBundleHref ? [{rel: 'stylesheet', href: cssBundleHref}] : []),
-];
+import '~/tailwind.css';
 
 export async function loader({request}: LoaderFunctionArgs) {
   const {NODE_ENV} = process.env;
@@ -63,7 +52,6 @@ export default function App() {
           nonce={nonce}
         />
         <Scripts nonce={nonce} />
-        <LiveReload nonce={nonce} />
       </body>
     </html>
   );

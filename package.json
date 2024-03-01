@@ -1,16 +1,16 @@
 {
   "name": "andrew-stack-template",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "run-s build:*",
-    "build:remix": "remix build",
-    "build:server": "esbuild ./server.ts  --bundle --format=cjs --packages=external --platform=node --outdir=build --target=node18",
-    "dev": "remix dev --manual --command 'npm run dev:server'",
-    "dev:server": "node --inspect --require ./node_modules/dotenv/config ./build/server.js",
+    "build:remix": "remix vite:build --sourcemapServer",
+    "build:server": "esbuild ./server.ts --bundle --format=esm --packages=external --platform=node --outdir=build/express --sourcemap --target=node20",
+    "dev": "NODE_ENV=development node --enable-source-maps --inspect --require ./node_modules/dotenv/config ./build/express/server.js",
     "docker": "docker compose up --detach",
     "docker:down": "docker compose down",
     "lint": "eslint --max-warnings 0 .",
-    "prod": "NODE_ENV=production node ./build/server.js",
+    "prod": "NODE_ENV=production node --enable-source-maps ./build/server.js",
     "routes": "remix routes",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "setup:e2e": "npm run build && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx prisma migrate reset --force",
@@ -41,12 +41,10 @@
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
-    "@remix-run/css-bundle": "^2.8.0",
     "@remix-run/express": "^2.8.0",
     "@remix-run/node": "^2.8.0",
     "@remix-run/react": "^2.8.0",
     "bcryptjs": "^2.4.3",
-    "chokidar": "^3.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "compression": "^1.7.4",
@@ -103,13 +101,13 @@
     "prisma": "^5.10.2",
     "storybook": "^7.6.17",
     "tailwindcss": "^3.4.1",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.7.1",
     "typescript": "^5.3.3",
+    "vite": "^5.1.4",
     "vite-tsconfig-paths": "^4.3.1",
     "vitest": "^1.3.1"
   },
   "prisma": {
-    "seed": "ts-node --require tsconfig-paths/register prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   }
 }
