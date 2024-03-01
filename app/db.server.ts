@@ -1,5 +1,5 @@
 import {PrismaClient} from '@prisma/client';
-import invariant from 'tiny-invariant';
+import {assert} from 'smart-invariant';
 
 let prisma: PrismaClient;
 
@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 
 function getClient() {
   const {DATABASE_URL} = process.env;
-  invariant(DATABASE_URL, 'DATABASE_URL env var not set');
+  assert(DATABASE_URL, 'DATABASE_URL env var not set');
 
   const databaseUrl = new URL(DATABASE_URL);
 

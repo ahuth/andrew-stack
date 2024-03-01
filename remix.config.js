@@ -8,6 +8,7 @@ module.exports = {
   ],
   postcss: true,
   serverModuleFormat: 'cjs',
+  serverDependenciesToBundle: ['smart-invariant'],
   tailwind: true,
   future: {
     v3_fetcherPersist: true,
