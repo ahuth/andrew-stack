@@ -15,7 +15,7 @@
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "setup:e2e": "npm run build && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx prisma migrate reset --force",
     "storybook": "storybook dev",
-    "storybook:build": "storybook build --output-dir ./storybook-static",
+    "storybook:build": "storybook build --output-dir ./storybook-static --webpack-stats-json",
     "start": "npm run dev",
     "test": "vitest",
     "test:axe": "npm run storybook:build && npm run test:axeOnly --",
