@@ -1,3 +1,4 @@
+import {it, expect} from 'vitest';
 import {loader} from './health';
 
 it('returns ok', () => {

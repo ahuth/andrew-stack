@@ -1,3 +1,4 @@
+import {it, expect} from 'vitest';
 import {safeRedirect} from './safeRedirect';
 
 it('returns the default redirect when no destination is provided', () => {

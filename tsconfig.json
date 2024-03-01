@@ -20,9 +20,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2022",
-    "types": [
-      "vitest/globals",
-    ],
+    "target": "ES2022"
   }
 }
