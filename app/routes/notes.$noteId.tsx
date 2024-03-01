@@ -1,4 +1,3 @@
-import {Button, Typography} from '@mui/joy';
 import {
   json,
   redirect,
@@ -12,6 +11,7 @@ import {
   useRouteError,
 } from '@remix-run/react';
 import {assert} from 'smart-invariant';
+import {Button} from '~/components/ui/button';
 import {deleteNote, getNote} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
 
@@ -40,11 +40,15 @@ export default function NoteDetailsPage() {
 
   return (
     <div>
-      <Typography level="h3">{data.note.title}</Typography>
-      <Typography className="py-6">{data.note.body}</Typography>
+      <h3 className="text-2xl font-semibold tracking-tight">
+        {data.note.title}
+      </h3>
+      <p className="py-6">{data.note.body}</p>
       <hr className="my-4" />
       <Form method="post">
-        <Button type="submit">Delete</Button>
+        <Button type="submit" variant="destructive">
+          Delete
+        </Button>
       </Form>
     </div>
   );

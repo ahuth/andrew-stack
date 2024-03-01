@@ -1,16 +1,12 @@
 import {useForm, getFormProps} from '@conform-to/react';
 import {parseWithZod} from '@conform-to/zod';
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  Textarea,
-} from '@mui/joy';
 import {json, redirect, type ActionFunctionArgs} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
+import {Button} from '~/components/ui/button';
+import {Input} from '~/components/ui/input';
+import {Label} from '~/components/ui/label';
+import {Textarea} from '~/components/ui/textarea';
 import {noteSchema} from '~/models/note.schema';
 import {createNote} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
@@ -36,7 +32,7 @@ export async function action({request}: ActionFunctionArgs) {
 export default function NewNotePage() {
   const lastResult = useActionData<typeof action>();
   const titleRef = useRef<HTMLInputElement>(null);
-  const bodyRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLTextAreaElement>(null);
 
   const [form, fields] = useForm({
     lastResult,
@@ -59,21 +55,40 @@ export default function NewNotePage() {
       method="post"
       {...getFormProps(form)}
     >
-      <FormControl error={!fields.title.valid}>
-        <FormLabel>Title</FormLabel>
-        <Input name="title" ref={titleRef} required />
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="title">Title</Label>
+        <Input
+          aria-describedby={!fields.title.valid ? 'title-error' : undefined}
+          aria-invalid={!fields.title.valid ? true : undefined}
+          id="title"
+          name="title"
+          ref={titleRef}
+          required
+        />
         {fields.title.errors && (
-          <FormHelperText>{fields.title.errors[0]}</FormHelperText>
+          <p className="text-sm text-red-600" id="title-error">
+            {fields.title.errors[0]}
+          </p>
         )}
-      </FormControl>
+      </div>
 
-      <FormControl error={!fields.body.valid}>
-        <FormLabel>Body</FormLabel>
-        <Textarea minRows={8} name="body" ref={bodyRef} required />
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="body">Body</Label>
+        <Textarea
+          aria-describedby={!fields.body.valid ? 'body-error' : undefined}
+          aria-invalid={!fields.body.valid ? true : undefined}
+          id="body"
+          name="body"
+          ref={bodyRef}
+          required
+          rows={8}
+        />
         {fields.body.errors && (
-          <FormHelperText>{fields.body.errors[0]}</FormHelperText>
+          <p className="text-sm text-red-600" id="body-error">
+            {fields.body.errors[0]}
+          </p>
         )}
-      </FormControl>
+      </div>
 
       <div className="text-right">
         <Button type="submit">Save</Button>

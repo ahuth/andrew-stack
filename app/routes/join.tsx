@@ -1,14 +1,6 @@
 import {useForm, getFormProps} from '@conform-to/react';
 import {parseWithZod} from '@conform-to/zod';
 import {
-  Button,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  Typography,
-} from '@mui/joy';
-import {
   json,
   redirect,
   type ActionFunctionArgs,
@@ -18,6 +10,9 @@ import {
 import {Form, useActionData, useSearchParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
 import Link from '~/components/Link';
+import {Button} from '~/components/ui/button';
+import {Input} from '~/components/ui/input';
+import {Label} from '~/components/ui/label';
 import {createUserSession, getUserId} from '~/models/session.server';
 import {loginSchema} from '~/models/user.schema';
 import {createUser, getUserByEmail} from '~/models/user.server';
@@ -92,56 +87,64 @@ export default function Join() {
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form className="space-y-6" method="post" {...getFormProps(form)}>
-          <FormControl error={!fields.email.valid}>
-            <FormLabel>Email address</FormLabel>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="email">Email address</Label>
             <Input
+              aria-describedby={!fields.email.valid ? 'email-error' : undefined}
+              aria-invalid={!fields.email.valid ? true : undefined}
               autoComplete="email"
               autoFocus
+              id="email"
               name="email"
               ref={emailRef}
               required
               type="email"
             />
             {fields.email.errors && (
-              <FormHelperText>{fields.email.errors[0]}</FormHelperText>
+              <p className="text-sm text-red-600" id="email-error">
+                {fields.email.errors[0]}
+              </p>
             )}
-          </FormControl>
+          </div>
 
-          <FormControl error={!fields.password.valid}>
-            <FormLabel>Password</FormLabel>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="password">Password</Label>
             <Input
+              aria-describedby={
+                !fields.password.valid ? 'password-error' : undefined
+              }
+              aria-invalid={!fields.password.valid ? true : undefined}
               autoComplete="new-password"
+              id="password"
               name="password"
               ref={passwordRef}
               required
               type="password"
             />
             {fields.password.errors && (
-              <FormHelperText>{fields.password.errors[0]}</FormHelperText>
+              <p className="text-sm text-red-600" id="password-error">
+                {fields.password.errors[0]}
+              </p>
             )}
-          </FormControl>
+          </div>
 
           <input name="redirectTo" type="hidden" value={redirectTo} />
 
-          <Button fullWidth type="submit">
+          <Button className="w-full" type="submit">
             Create Account
           </Button>
 
-          <div className="flex items-center justify-center">
-            <div className="text-center text-sm">
-              <Typography level="body-sm">
-                Already have an account?{' '}
-                <Link
-                  to={{
-                    pathname: '/login',
-                    search: searchParams.toString(),
-                  }}
-                >
-                  Log in
-                </Link>
-              </Typography>
-            </div>
-          </div>
+          <p className="text-center text-sm">
+            Already have an account?{' '}
+            <Link
+              to={{
+                pathname: '/login',
+                search: searchParams.toString(),
+              }}
+            >
+              Log in
+            </Link>
+          </p>
         </Form>
       </div>
     </div>
