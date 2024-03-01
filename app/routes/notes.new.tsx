@@ -1,5 +1,5 @@
-import {useForm} from '@conform-to/react';
-import {parse} from '@conform-to/zod';
+import {useForm, getFormProps} from '@conform-to/react';
+import {parseWithZod} from '@conform-to/zod';
 import {
   Button,
   FormControl,
@@ -18,10 +18,10 @@ import {requireUserId} from '~/models/session.server';
 export async function action({request}: ActionFunctionArgs) {
   const userId = await requireUserId(request);
   const formData = await request.formData();
-  const submission = parse(formData, {schema: noteSchema});
+  const submission = parseWithZod(formData, {schema: noteSchema});
 
-  if (!submission.value) {
-    return json(submission, {status: 400});
+  if (submission.status !== 'success') {
+    return json(submission.reply(), {status: 400});
   }
 
   const note = await createNote({
@@ -34,40 +34,44 @@ export async function action({request}: ActionFunctionArgs) {
 }
 
 export default function NewNotePage() {
-  const lastSubmission = useActionData<typeof action>();
+  const lastResult = useActionData<typeof action>();
   const titleRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   const [form, fields] = useForm({
-    lastSubmission,
+    lastResult,
     onValidate({formData}) {
-      return parse(formData, {schema: noteSchema});
+      return parseWithZod(formData, {schema: noteSchema});
     },
   });
 
   useEffect(() => {
-    if (fields.title.error) {
+    if (!fields.title.valid) {
       titleRef.current?.focus();
-    } else if (fields.body.error) {
+    } else if (!fields.body.valid) {
       bodyRef.current?.focus();
     }
-  }, [fields.title.error, fields.body.error]);
+  }, [fields.title.valid, fields.body.valid]);
 
   return (
-    <Form className="flex w-full flex-col gap-2" method="post" {...form.props}>
-      <FormControl error={!!fields.title.error}>
+    <Form
+      className="flex w-full flex-col gap-2"
+      method="post"
+      {...getFormProps(form)}
+    >
+      <FormControl error={!fields.title.valid}>
         <FormLabel>Title</FormLabel>
         <Input name="title" ref={titleRef} required />
-        {fields.title.error && (
-          <FormHelperText>{fields.title.error}</FormHelperText>
+        {fields.title.errors && (
+          <FormHelperText>{fields.title.errors[0]}</FormHelperText>
         )}
       </FormControl>
 
-      <FormControl error={!!fields.body.error}>
+      <FormControl error={!fields.body.valid}>
         <FormLabel>Body</FormLabel>
         <Textarea minRows={8} name="body" ref={bodyRef} required />
-        {fields.body.error && (
-          <FormHelperText>{fields.body.error}</FormHelperText>
+        {fields.body.errors && (
+          <FormHelperText>{fields.body.errors[0]}</FormHelperText>
         )}
       </FormControl>
 

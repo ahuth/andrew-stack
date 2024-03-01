@@ -1,5 +1,5 @@
-import {useForm} from '@conform-to/react';
-import {parse} from '@conform-to/zod';
+import {useForm, getFormProps} from '@conform-to/react';
+import {parseWithZod} from '@conform-to/zod';
 import {
   Button,
   FormControl,
@@ -34,22 +34,21 @@ export async function loader({request}: LoaderFunctionArgs) {
 export async function action({request}: ActionFunctionArgs) {
   const formData = await request.formData();
   const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
-  const submission = parse(formData, {schema: loginSchema});
+  const submission = parseWithZod(formData, {schema: loginSchema});
 
-  if (!submission.value) {
-    return json(submission, {status: 400});
+  if (submission.status !== 'success') {
+    return json(submission.reply(), {status: 400});
   }
 
   const existingUser = await getUserByEmail(submission.value.email);
 
   if (existingUser) {
     return json(
-      {
-        ...submission,
-        error: {
+      submission.reply({
+        fieldErrors: {
           email: ['A user already exists with this email'],
         },
-      },
+      }),
       {status: 400},
     );
   }
@@ -70,30 +69,30 @@ export async function action({request}: ActionFunctionArgs) {
 export default function Join() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') ?? undefined;
-  const lastSubmission = useActionData<typeof action>();
+  const lastResult = useActionData<typeof action>();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const [form, fields] = useForm({
-    lastSubmission,
+    lastResult,
     onValidate({formData}) {
-      return parse(formData, {schema: loginSchema});
+      return parseWithZod(formData, {schema: loginSchema});
     },
   });
 
   useEffect(() => {
-    if (fields.email.error) {
+    if (!fields.email.valid) {
       emailRef.current?.focus();
-    } else if (fields.password.error) {
+    } else if (!fields.password.valid) {
       passwordRef.current?.focus();
     }
-  }, [fields.email.error, fields.password.error]);
+  }, [fields.email.valid, fields.password.valid]);
 
   return (
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
-        <Form className="space-y-6" method="post" {...form.props}>
-          <FormControl error={!!fields.email.error}>
+        <Form className="space-y-6" method="post" {...getFormProps(form)}>
+          <FormControl error={!fields.email.valid}>
             <FormLabel>Email address</FormLabel>
             <Input
               autoComplete="email"
@@ -103,12 +102,12 @@ export default function Join() {
               required
               type="email"
             />
-            {fields.email.error && (
-              <FormHelperText>{fields.email.error}</FormHelperText>
+            {fields.email.errors && (
+              <FormHelperText>{fields.email.errors[0]}</FormHelperText>
             )}
           </FormControl>
 
-          <FormControl error={!!fields.password.error}>
+          <FormControl error={!fields.password.valid}>
             <FormLabel>Password</FormLabel>
             <Input
               autoComplete="new-password"
@@ -117,8 +116,8 @@ export default function Join() {
               required
               type="password"
             />
-            {fields.password.error && (
-              <FormHelperText>{fields.password.error}</FormHelperText>
+            {fields.password.errors && (
+              <FormHelperText>{fields.password.errors[0]}</FormHelperText>
             )}
           </FormControl>
 
