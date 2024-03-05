@@ -2,7 +2,11 @@ import path from 'node:path';
 import type {StorybookConfig} from '@storybook/react-webpack5';
 
 export default {
-  addons: ['@storybook/addon-a11y', '@storybook/addon-essentials'],
+  addons: [
+    '@storybook/addon-a11y',
+    '@storybook/addon-essentials',
+    '@storybook/addon-webpack5-compiler-swc',
+  ],
   core: {
     disableTelemetry: true,
   },
@@ -12,18 +16,15 @@ export default {
   },
   stories: ['../app'],
 
-  babel(config) {
-    return {
-      ...config,
-      sourceType: 'module',
-      targets: 'last 2 versions',
-      presets: [
-        ...(config.presets || []),
-        '@babel/preset-env',
-        '@babel/preset-typescript',
-      ],
-    };
-  },
+  swc: () => ({
+    jsc: {
+      transform: {
+        react: {
+          runtime: 'automatic',
+        },
+      },
+    },
+  }),
 
   webpackFinal(config) {
     return {
