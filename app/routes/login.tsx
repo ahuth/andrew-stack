@@ -9,15 +9,22 @@ import {
 } from '@remix-run/node';
 import {Form, useActionData, useSearchParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
+import z from 'zod';
 import Link from '~/components/Link';
 import {Button} from '~/components/ui/button';
 import {Checkbox} from '~/components/ui/checkbox';
 import {Input} from '~/components/ui/input';
 import {Label} from '~/components/ui/label';
 import {createUserSession, getUserId} from '~/models/session.server';
-import {loginSchema} from '~/models/user.schema';
 import {verifyLogin} from '~/models/user.server';
 import {safeRedirect} from '~/utils';
+
+const loginFormSchema = z.object({
+  email: z
+    .string({required_error: 'Email is required'})
+    .email({message: 'Email is invalid'}),
+  password: z.string({required_error: 'Password is required'}),
+});
 
 export const meta: MetaFunction = () => [{title: 'Login'}];
 
@@ -31,7 +38,7 @@ export async function action({request}: ActionFunctionArgs) {
   const formData = await request.formData();
   const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
   const remember = formData.get('remember');
-  const submission = parseWithZod(formData, {schema: loginSchema});
+  const submission = parseWithZod(formData, {schema: loginFormSchema});
 
   if (submission.status !== 'success') {
     return json(submission.reply(), {status: 400});
@@ -71,7 +78,7 @@ export default function LoginPage() {
   const [form, fields] = useForm({
     lastResult,
     onValidate({formData}) {
-      return parseWithZod(formData, {schema: loginSchema});
+      return parseWithZod(formData, {schema: loginFormSchema});
     },
   });
 

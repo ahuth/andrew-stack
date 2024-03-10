@@ -3,18 +3,23 @@ import {parseWithZod} from '@conform-to/zod';
 import {json, redirect, type ActionFunctionArgs} from '@remix-run/node';
 import {Form, useActionData} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
+import z from 'zod';
 import {Button} from '~/components/ui/button';
 import {Input} from '~/components/ui/input';
 import {Label} from '~/components/ui/label';
 import {Textarea} from '~/components/ui/textarea';
-import {noteSchema} from '~/models/note.schema';
 import {createNote} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
+
+const newFormSchema = z.object({
+  title: z.string().min(1),
+  body: z.string().min(1),
+});
 
 export async function action({request}: ActionFunctionArgs) {
   const userId = await requireUserId(request);
   const formData = await request.formData();
-  const submission = parseWithZod(formData, {schema: noteSchema});
+  const submission = parseWithZod(formData, {schema: newFormSchema});
 
   if (submission.status !== 'success') {
     return json(submission.reply(), {status: 400});
@@ -37,7 +42,7 @@ export default function NewNotePage() {
   const [form, fields] = useForm({
     lastResult,
     onValidate({formData}) {
-      return parseWithZod(formData, {schema: noteSchema});
+      return parseWithZod(formData, {schema: newFormSchema});
     },
   });
 
