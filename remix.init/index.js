@@ -17,7 +17,6 @@ module.exports = async function main({rootDirectory}) {
     license: path.join(rootDirectory, 'LICENSE.md'),
     package_json: path.join(rootDirectory, 'package.json'),
     readme: path.join(rootDirectory, 'README.md'),
-    render_blueprint: path.join(rootDirectory, 'render.yaml'),
   };
 
   /**
@@ -27,7 +26,6 @@ module.exports = async function main({rootDirectory}) {
 
   await Promise.all([
     updateFile(PATHS.package_json, replaceDefaultName),
-    updateFile(PATHS.render_blueprint, replaceDefaultName),
     updateFile(PATHS.readme, (file) => {
       return (
         replaceDefaultName(file)
