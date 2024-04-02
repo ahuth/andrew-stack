@@ -8,7 +8,7 @@ concurrency:
 
 jobs:
   lint:
-    name: 👖 ESLint
+    name: 👖 Lint
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
@@ -27,8 +27,11 @@ jobs:
       - name: 👖 Lint
         run: npm run lint
 
-  typecheck:
-    name: 🔎 TypeScript
+      - name: 💄 Prettier
+        run: npm run prettier
+
+  types:
+    name: 🔎 Types
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo

@@ -8,12 +8,10 @@ module.exports = {
       version: 29,
     },
   },
-  plugins: ['prettier'],
   extends: [
     '@remix-run/eslint-config',
     '@remix-run/eslint-config/node',
     'plugin:jsx-a11y/recommended',
-    'plugin:prettier/recommended',
   ],
   reportUnusedDisableDirectives: true,
   ignorePatterns: ['build/'],

@@ -10,6 +10,7 @@
     "docker": "docker compose up --detach",
     "docker:down": "docker compose down",
     "lint": "eslint --max-warnings 0 .",
+    "prettier": "prettier . --cache --check",
     "prod": "NODE_ENV=production node --enable-source-maps ./build/server.js",
     "routes": "remix routes",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
@@ -22,7 +23,7 @@
     "test:axeOnly": "axe-storybook --build-dir ./storybook-static",
     "test:e2e": "npm run setup:e2e && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx playwright test",
     "types": "tsc --noEmit",
-    "validate": "run-p \"test -- --run\" lint types"
+    "validate": "run-p \"test -- --run\" lint prettier types"
   },
   "eslintIgnore": [
     "/build",
@@ -88,8 +89,6 @@
     "dotenv": "^16.4.5",
     "esbuild": "^0.20.1",
     "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.3",
     "happy-dom": "^13.6.2",
     "npm-run-all": "^4.1.5",
     "null-loader": "^4.0.1",
