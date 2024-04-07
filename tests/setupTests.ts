@@ -3,6 +3,5 @@ import '@testing-library/jest-dom/vitest';
 
 installGlobals();
 
-// Silence a React log about its dev tools during tests.
-// @ts-expect-error
+// @ts-expect-error Silence a React log about its dev tools during tests.
 globalThis.__REACT_DEVTOOLS_GLOBAL_HOOK__ = {isDisabled: true};
