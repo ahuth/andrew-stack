@@ -5,18 +5,14 @@ module.exports = {
     es6: true,
   },
   settings: {
-    'import/resolver': {
-      typescript: true,
-    },
     react: {
       version: 'detect',
     },
   },
+  plugins: ['import'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:import/errors',
-    'plugin:import/typescript',
     'plugin:jsx-a11y/recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
@@ -33,7 +29,10 @@ module.exports = {
       {args: 'none', ignoreRestSiblings: true},
     ],
     eqeqeq: ['error', 'allow-null'],
+    'import/export': 'error',
     'import/first': 'error',
+    'import/newline-after-import': ['error', {considerComments: true}],
+    'import/no-duplicates': 'error',
     'import/order': ['error', {alphabetize: {order: 'asc'}}],
     // Autofocus has its uses, and may be better than manually sending focus to an input field.
     'jsx-a11y/no-autofocus': 'off',
