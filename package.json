@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "@chanzuckerberg/axe-storybook-testing": "^8.0.1",
+    "@eslint/eslintrc": "^3.0.2",
     "@playwright/test": "^1.42.1",
     "@remix-run/dev": "^2.8.1",
     "@remix-run/testing": "^2.8.1",
