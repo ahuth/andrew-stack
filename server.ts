@@ -105,7 +105,8 @@ async function setupRequestHandlers() {
   app.all(
     '*',
     createRequestHandler({
-      // @ts-expect-error ssrLoadModule returns a generic object that is not currently compatible
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore ssrLoadModule returns a generic object that is not currently compatible
       // with ServerBuild.
       build: viteDevServer
         ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
