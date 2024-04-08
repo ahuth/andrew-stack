@@ -1,16 +1,9 @@
-import path from 'path';
-import {fileURLToPath} from 'url';
 import {FlatCompat} from '@eslint/eslintrc';
 import js from '@eslint/js';
 import vitest from 'eslint-plugin-vitest';
 import typescript from 'typescript-eslint';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+const compat = new FlatCompat();
 
 /** @type {import('@types/eslint').Linter.FlatConfig} */
 export default [
