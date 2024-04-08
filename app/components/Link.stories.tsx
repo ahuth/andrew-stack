@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import type {ComponentProps} from 'react';
-import Link from './Link';
 import {RemixStub} from 'tests/createRemixStub';
+import Link from './Link';
 
 export default {
   component: Link,

@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import Index from './_index';
 import {RemixStub} from 'tests/createRemixStub';
+import Index from './_index';
 
 export default {
   component: Index,

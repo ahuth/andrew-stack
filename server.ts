@@ -105,11 +105,12 @@ async function setupRequestHandlers() {
   app.all(
     '*',
     createRequestHandler({
-      // @ts-ignore ssrLoadModule returns a generic object that is not currently compatible with
-      // ServerBuild.
+      // @ts-expect-error ssrLoadModule returns a generic object that is not currently compatible
+      // with ServerBuild.
       build: viteDevServer
         ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
-        : // @ts-ignore The server build may not exist, yet.
+        : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore The server build may not exist, yet.
           await import('./build/server/index.js'),
       getLoadContext,
       mode: process.env.NODE_ENV,

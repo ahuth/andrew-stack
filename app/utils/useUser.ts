@@ -19,6 +19,11 @@ export function useOptionalUser(): User | undefined {
   return data.user;
 }
 
-function isUser(user: any): user is User {
-  return user && typeof user === 'object' && typeof user.email === 'string';
+function isUser(user: unknown): user is User {
+  return (
+    !!user &&
+    typeof user === 'object' &&
+    'email' in user &&
+    typeof user.email === 'string'
+  );
 }
