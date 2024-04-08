@@ -1,3 +1,4 @@
+/* global module, require */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require('node:fs/promises');
 const path = require('node:path');
