@@ -16,9 +16,9 @@ const newFormSchema = z.object({
   body: z.string().min(1),
 });
 
-export async function action({request}: ActionFunctionArgs) {
-  const userId = await requireUserId(request);
-  const formData = await request.formData();
+export async function action(args: ActionFunctionArgs) {
+  const userId = await requireUserId(args);
+  const formData = await args.request.formData();
   const submission = parseWithZod(formData, {schema: newFormSchema});
 
   if (submission.status !== 'success') {

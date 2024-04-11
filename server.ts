@@ -61,7 +61,13 @@ function setupMiddleware() {
       contentSecurityPolicy: {
         directives: {
           'connect-src': [
+            // Web socket connections for dev servers.
             process.env.NODE_ENV === 'development' ? 'ws:' : null,
+            // Clerk auth dev pages.
+            process.env.NODE_ENV === 'development' ? '*.accounts.dev' : null,
+            // Vite HMR
+            process.env.NODE_ENV === 'development' ? 'localhost:24678' : null,
+            // Anything from the domain the app is running on.
             "'self'",
           ].filter(Boolean) as string[],
           'script-src': [

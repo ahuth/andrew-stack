@@ -15,22 +15,22 @@ import {Button} from '~/components/ui/button';
 import {deleteNote, getNote} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
 
-export async function loader({params, request}: LoaderFunctionArgs) {
-  const userId = await requireUserId(request);
-  assert(params.noteId, 'noteId not found');
+export async function loader(args: LoaderFunctionArgs) {
+  const userId = await requireUserId(args);
+  assert(args.params.noteId, 'noteId not found');
 
-  const note = await getNote({id: params.noteId, userId});
+  const note = await getNote({id: args.params.noteId, userId});
   if (!note) {
     throw new Response('Not Found', {status: 404});
   }
   return json({note});
 }
 
-export async function action({params, request}: ActionFunctionArgs) {
-  const userId = await requireUserId(request);
-  assert(params.noteId, 'noteId not found');
+export async function action(args: ActionFunctionArgs) {
+  const userId = await requireUserId(args);
+  assert(args.params.noteId, 'noteId not found');
 
-  await deleteNote({id: params.noteId, userId});
+  await deleteNote({id: args.params.noteId, userId});
 
   return redirect('/notes');
 }
