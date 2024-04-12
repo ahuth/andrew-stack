@@ -5,8 +5,10 @@ export async function login(
   username = 'jane@example.com',
   password = 'password',
 ) {
-  await page.goto('/login');
-  await page.getByLabel('Email address').fill(username);
-  await page.getByLabel('Password').fill(password);
-  await page.getByRole('button', {name: 'Log in'}).click();
+  await page.goto('/');
+  await page.getByRole('button', {name: 'Sign in'}).click();
+  await page.getByLabel('Email address', {exact: true}).fill(username);
+  await page.keyboard.press('Enter');
+  await page.getByLabel('Password', {exact: true}).fill(password);
+  await page.keyboard.press('Enter');
 }
