@@ -75,6 +75,11 @@ function setupMiddleware() {
             // @ts-expect-error Helmet types don't seem to know about res.locals
             (_, res) => `'nonce-${res.locals.cspNonce}'`,
           ],
+          'img-src': [
+            // Allow profile images from Clerk's user management.
+            '*.clerk.com',
+            "'self'",
+          ],
         },
       },
     }),
