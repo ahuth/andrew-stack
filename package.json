@@ -13,7 +13,7 @@
     "prettier": "prettier . --cache --check",
     "prod": "NODE_ENV=production node --enable-source-maps ./build/server.js",
     "routes": "remix routes",
-    "setup": "prisma generate && prisma migrate deploy && prisma db seed",
+    "setup": "prisma generate && prisma migrate deploy",
     "setup:e2e": "npm run build && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx prisma migrate reset --force",
     "storybook": "storybook dev",
     "storybook:build": "storybook build --output-dir ./storybook-static",
@@ -110,8 +110,5 @@
     "vite": "^5.2.8",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.5.0"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
   }
 }
