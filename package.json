@@ -35,7 +35,7 @@
     "!/.storybook"
   ],
   "dependencies": {
-    "@clerk/remix": "^4.0.0-beta.41",
+    "@clerk/remix": "^4.0.0-beta.43",
     "@conform-to/react": "^1.1.0",
     "@conform-to/zod": "^1.1.0",
     "@fontsource/inter": "^5.0.17",
