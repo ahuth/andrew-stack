@@ -25,7 +25,7 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 
 ## What's in the template
 
-- Email/Password authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
+- [Clerk](https://clerk.com/) for authentication and user management
 - [Conform](https://conform.guide/) for Progressively Enhanced and fully type safe forms
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) containerization
 - [ESLint](https://eslint.org) for linting
@@ -44,6 +44,7 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 
 ## Requirements
 
+- A [Clerk](https://clerk.com/) account
 - [Docker](https://www.docker.com/)
 - [nodenv](https://github.com/nodenv/nodenv)
 
@@ -68,6 +69,13 @@ After cloning the repo, setup the app by following these steps.
   ```sh
   cp .env.example .env
   ```
+
+- Add Clerk env vars to the .env file. Get these from your Clerk account.
+  - `CLERK_PUBLISHABLE_KEY`
+  - `CLERK_SECRET_KEY`
+  - `CLERK_SIGN_IN_URL`
+  - `CLERK_SIGN_UP_URL`
+  - `CLERK_USER_PROFILE_URL`
 
 - Start any required Docker services, such as Postgres:
 

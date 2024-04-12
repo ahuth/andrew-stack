@@ -61,13 +61,26 @@ function setupMiddleware() {
       contentSecurityPolicy: {
         directives: {
           'connect-src': [
+            // Web socket connections for dev servers.
             process.env.NODE_ENV === 'development' ? 'ws:' : null,
+            // Clerk auth dev pages.
+            process.env.NODE_ENV === 'development' ? '*.accounts.dev' : null,
+            // Vite HMR
+            process.env.NODE_ENV === 'development' ? 'localhost:24678' : null,
+            // Anything from the domain the app is running on.
             "'self'",
           ].filter(Boolean) as string[],
           'script-src': [
+            // Only allow scripts that have the secret nonce set on them.
             "'strict-dynamic'",
             // @ts-expect-error Helmet types don't seem to know about res.locals
             (_, res) => `'nonce-${res.locals.cspNonce}'`,
+          ],
+          'img-src': [
+            // Allow profile images from Clerk's user management.
+            '*.clerk.com',
+            // Anything from the domain the app is running on.
+            "'self'",
           ],
         },
       },

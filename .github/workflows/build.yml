@@ -75,6 +75,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test
+      # If using Clerk for auth, you'll need to add these values as repository secrets.
+      CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+      CLERK_SIGN_IN_URL: ${{ secrets.CLERK_SIGN_IN_URL }}
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
@@ -88,9 +92,6 @@ jobs:
 
       - name: 📥 Install deps
         run: npm install
-
-      - name: 🏄 Copy test env vars
-        run: cp .env.example .env
 
       - name: 🐳 Docker compose
         run: npm run docker
