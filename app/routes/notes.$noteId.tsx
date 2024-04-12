@@ -35,7 +35,7 @@ export async function action(args: ActionFunctionArgs) {
   return redirect('/notes');
 }
 
-export default function NoteDetailsPage() {
+export default function NotesNoteId() {
   const data = useLoaderData<typeof loader>();
 
   return (

@@ -1,6 +1,6 @@
 import Link from '~/components/Link';
 
-export default function NoteIndexPage() {
+export default function NotesIndex() {
   return (
     <p>
       No note selected. Select a note on the left, or{' '}
