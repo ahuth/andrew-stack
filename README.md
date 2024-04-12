@@ -44,6 +44,7 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 
 ## Requirements
 
+- A [Clerk](https://clerk.com/) account
 - [Docker](https://www.docker.com/)
 - [nodenv](https://github.com/nodenv/nodenv)
 
@@ -68,6 +69,13 @@ After cloning the repo, setup the app by following these steps.
   ```sh
   cp .env.example .env
   ```
+
+- Add Clerk env vars to the .env file. Get these from your Clerk account.
+  - `CLERK_PUBLISHABLE_KEY`
+  - `CLERK_SECRET_KEY`
+  - `CLERK_SIGN_IN_URL`
+  - `CLERK_SIGN_UP_URL`
+  - `CLERK_USER_PROFILE_URL`
 
 - Start any required Docker services, such as Postgres:
 
