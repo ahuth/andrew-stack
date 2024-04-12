@@ -71,6 +71,7 @@ function setupMiddleware() {
             "'self'",
           ].filter(Boolean) as string[],
           'script-src': [
+            // Only allow scripts that have the secret nonce set on them.
             "'strict-dynamic'",
             // @ts-expect-error Helmet types don't seem to know about res.locals
             (_, res) => `'nonce-${res.locals.cspNonce}'`,
@@ -78,6 +79,7 @@ function setupMiddleware() {
           'img-src': [
             // Allow profile images from Clerk's user management.
             '*.clerk.com',
+            // Anything from the domain the app is running on.
             "'self'",
           ],
         },
