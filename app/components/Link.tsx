@@ -7,7 +7,10 @@ import clsx from 'clsx';
 export default function Link({className, ...props}: Props) {
   return (
     <RemixLink
-      className={clsx('text-blue-700 underline', className)}
+      className={clsx(
+        'border border-fuchsia-500 text-blue-700 underline',
+        className,
+      )}
       {...props}
     />
   );
