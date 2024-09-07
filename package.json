@@ -22,7 +22,7 @@
     "test": "vitest",
     "test:axe": "npm run storybook:build -- --test && npm run test:axeOnly --",
     "test:axeOnly": "axe-storybook --build-dir ./storybook-static",
-    "test:e2e": "npm run setup:e2e && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npx playwright test",
+    "test:e2e": "npm run setup:e2e && npx playwright test",
     "types": "tsc --noEmit",
     "validate": "run-p \"test -- --run\" lint prettier types"
   },

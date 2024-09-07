@@ -51,9 +51,14 @@ export default defineConfig({
 
   // Run your local dev server before starting the tests
   webServer: {
-    command: `PORT=${TEST_PORT} npm run dev`,
+    command: 'npm run prod',
     port: TEST_PORT,
     reuseExistingServer: !process.env.CI,
     stdout: 'pipe',
+    env: {
+      DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/test',
+      PORT: String(TEST_PORT),
+      SESSION_SECRET: 'super-duper-s3cret',
+    },
   },
 });
