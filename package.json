@@ -26,15 +26,6 @@
     "types": "tsc --noEmit",
     "validate": "run-p \"test -- --run\" lint prettier types"
   },
-  "eslintIgnore": [
-    "/build",
-    "/node_modules",
-    "/playwright-report",
-    "/postgres-data",
-    "/public/build",
-    "/storybook-static",
-    "!/.storybook"
-  ],
   "dependencies": {
     "@conform-to/react": "^1.1.5",
     "@conform-to/zod": "^1.1.5",

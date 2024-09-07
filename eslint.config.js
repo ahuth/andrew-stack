@@ -10,7 +10,13 @@ const compat = new FlatCompat();
 /** @type {import('@types/eslint').Linter.FlatConfig} */
 export default [
   {
-    ignores: ['build/*', 'storybook-static/*'],
+    ignores: [
+      'build/',
+      'playwright-report/',
+      'postgres-data/',
+      'storybook-static/',
+      '!.storybook/',
+    ],
   },
   {
     settings: {
