@@ -15,7 +15,7 @@
     "prod": "NODE_ENV=production node --enable-source-maps ./build/server.js",
     "routes": "remix routes",
     "setup": "prisma generate && npm run prisma migrate deploy && npm run prisma db seed",
-    "setup:e2e": "npm run build && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npm run prisma migrate reset --force",
+    "setup:e2e": "npm run build && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npm run prisma migrate reset -- --force",
     "storybook": "storybook dev",
     "storybook:build": "storybook build --output-dir ./storybook-static",
     "start": "npm run dev",
