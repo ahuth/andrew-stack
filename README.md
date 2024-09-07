@@ -1,29 +1,16 @@
 # Remix Andrew Stack
 
-<!-- DELETE-START -->
 [Remix](https://remix.run) template for creating full-stack apps.
-<!-- DELETE-END -->
 
 ## Table of contents
 
-<!-- DELETE-START -->
-- [Using this template](#using-this-template)
-- [What's in the template](#what-s-in-the-template)<!-- DELETE-END -->
+- [Tech stack](#tech-stack)
 - [Requirements](#requirements)
 - [Setup](#setup)
 - [Development](#development)
 - [Troubleshooting](#troubleshooting)
 
-<!-- DELETE-START -->
-## Using this template
-
-Create an app from this template by running:
-
-```sh
-npx --yes create-remix@latest --yes --template ahuth/andrew-stack
-```
-
-## What's in the template
+## Tech stack
 
 - Email/Password authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
 - [Conform](https://conform.guide/) for Progressively Enhanced and fully type safe forms
@@ -40,7 +27,6 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 - [TypeScript](https://typescriptlang.org) for type safety!
 - [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com) for unit testing
 - [Zod](https://zod.dev/) for Runtime schema validation
-<!-- DELETE-END -->
 
 ## Requirements
 
@@ -49,7 +35,7 @@ npx --yes create-remix@latest --yes --template ahuth/andrew-stack
 
 ## Setup
 
-After cloning the repo, setup the app by following these steps.
+Setup the app by doing the following:
 
 - Install the required Node version
 
@@ -68,8 +54,6 @@ After cloning the repo, setup the app by following these steps.
   ```sh
   npm run docker
   ```
-
-  > **Note:** Ensure that Docker has finished and your containers are running before proceeding.
 
 - Setup the database:
 
@@ -97,7 +81,7 @@ After cloning the repo, setup the app by following these steps.
   https://localhost:3000
   ```
 
-- By default there is a new user with some data you can use to get started:
+- By default there's a user with some data you can use to get started:
   - Email: jane@example.com
   - Password: password
 
@@ -113,19 +97,3 @@ After cloning the repo, setup the app by following these steps.
   | Reset your db | `npm run prisma migrate reset` |
 
 - Debug server side code by placing a `debugger` in your code, open up Chrome, and go to `chrome://inspect`.
-
-## Troubleshooting
-
-Something's gone awry 🤨? Try these steps:
-
-- Re-build the Remix server
-
-  ```sh
-  npm run build
-  ```
-
-- Re-install all dependencies (a "clean install")
-
-  ```sh
-  npm ci
-  ```
