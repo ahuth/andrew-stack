@@ -1,18 +1,20 @@
-import {UserButton} from '@clerk/remix';
 import {json, type LoaderFunctionArgs} from '@remix-run/node';
-import {Link, NavLink, Outlet, useLoaderData} from '@remix-run/react';
+import {Form, Link, NavLink, Outlet, useLoaderData} from '@remix-run/react';
 import clsx from 'clsx';
+import {Button} from '~/components/ui/button';
 import {getNoteListItems} from '~/models/note.server';
 import {requireUserId} from '~/models/session.server';
+import {useUser} from '~/utils';
 
-export async function loader(args: LoaderFunctionArgs) {
-  const userId = await requireUserId(args);
+export async function loader({request}: LoaderFunctionArgs) {
+  const userId = await requireUserId(request);
   const noteListItems = await getNoteListItems({userId});
   return json({noteListItems});
 }
 
-export default function Notes() {
+export default function NotesPage() {
   const data = useLoaderData<typeof loader>();
+  const user = useUser();
 
   return (
     <div className="flex h-full min-h-screen flex-col">
@@ -20,7 +22,12 @@ export default function Notes() {
         <h1 className="text-4xl text-white">
           <Link to=".">Notes</Link>
         </h1>
-        <UserButton />
+        <p className="text-white">{user.email}</p>
+        <Form action="/logout" method="post">
+          <Button type="submit" variant="secondary">
+            Logout
+          </Button>
+        </Form>
       </header>
 
       <main className="flex h-full bg-white">

@@ -1,5 +1,3 @@
-import {ClerkApp} from '@clerk/remix';
-import {rootAuthLoader} from '@clerk/remix/ssr.server';
 import {json, type LoaderFunctionArgs} from '@remix-run/node';
 import {
   Links,
@@ -9,24 +7,24 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react';
+import {getUser} from '~/models/session.server';
 import {useNonce} from '~/utils/useNonce';
 import '@fontsource/inter/index.css';
 import '~/tailwind.css';
 
-export function loader(args: LoaderFunctionArgs) {
-  return rootAuthLoader(args, () => {
-    const {NODE_ENV} = process.env;
+export async function loader({request}: LoaderFunctionArgs) {
+  const {NODE_ENV} = process.env;
 
-    return json({
-      ENV: {
-        GIT_COMMIT: process.env.GIT_COMMIT,
-        NODE_ENV,
-      },
-    });
+  return json({
+    user: await getUser(request),
+    ENV: {
+      GIT_COMMIT: process.env.GIT_COMMIT,
+      NODE_ENV,
+    },
   });
 }
 
-function App() {
+export default function App() {
   const data = useLoaderData<typeof loader>();
   const nonce = useNonce();
 
@@ -58,5 +56,3 @@ function App() {
     </html>
   );
 }
-
-export default ClerkApp(App);
