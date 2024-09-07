@@ -89,14 +89,7 @@ jobs:
       - name: 📥 Install deps
         run: npm install
 
-<<<<<<< HEAD
       - name: 🐳 Docker
-=======
-      - name: 🏄 Copy test env vars
-        run: cp .env.example .env
-
-      - name: 🐳 Docker compose
->>>>>>> 0c01751 (Revert "Merge pull request #8 from ahuth/clerk-auth")
         run: npm run docker
 
       - name: 🧑‍🎤 Install Playwright Browsers
