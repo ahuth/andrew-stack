@@ -69,6 +69,14 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'off',
     },
   },
+  {
+    // shadcn/ui components
+    files: ['app/components/ui/**/*'],
+    rules: {
+      // shadcn generates prop types that violate this rule. Ignore for these components.
+      '@typescript-eslint/no-empty-object-type': 'off',
+    },
+  },
 
   // React
   ...compat.extends('plugin:react-hooks/recommended'),
