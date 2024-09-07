@@ -12,7 +12,7 @@
     "lint": "eslint --max-warnings 0 .",
     "prettier": "prettier . --cache --check",
     "prisma": "dotenvx run --convention=nextjs -- prisma",
-    "prod": "NODE_ENV=production node --enable-source-maps ./build/server.js",
+    "prod": "NODE_ENV=production node --enable-source-maps ./build/express/server.js",
     "routes": "remix routes",
     "setup": "prisma generate && npm run prisma migrate deploy && npm run prisma db seed",
     "setup:e2e": "npm run build && DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test npm run prisma migrate reset -- --force",

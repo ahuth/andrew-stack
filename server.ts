@@ -112,7 +112,7 @@ async function setupRequestHandlers() {
         ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
         : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore The server build may not exist, yet.
-          await import('./build/server/index.js'),
+          await import('../server/index.js'),
       getLoadContext,
       mode: process.env.NODE_ENV,
     }),
