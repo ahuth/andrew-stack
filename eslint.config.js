@@ -1,5 +1,7 @@
 import {FlatCompat} from '@eslint/eslintrc';
 import js from '@eslint/js';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import react from 'eslint-plugin-react';
 import vitest from 'eslint-plugin-vitest';
 import typescript from 'typescript-eslint';
 
@@ -70,8 +72,8 @@ export default [
 
   // React
   ...compat.extends('plugin:react-hooks/recommended'),
-  ...compat.extends('plugin:react/recommended'),
-  ...compat.extends('plugin:react/jsx-runtime'),
+  react.configs.flat.recommended,
+  react.configs.flat['jsx-runtime'],
   {
     rules: {
       // Enforce files with JSX are named wither .jsx or .tsx. This makes it easier for us to do
@@ -90,7 +92,7 @@ export default [
       'react/prop-types': 'off',
     },
   },
-  ...compat.extends('plugin:jsx-a11y/recommended'),
+  jsxA11y.flatConfigs.recommended,
   {
     rules: {
       // Autofocus has its uses, and may be better than manually sending focus to an input field.
