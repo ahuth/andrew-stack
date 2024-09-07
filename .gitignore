@@ -15,4 +15,6 @@ npm-debug.log*
 
 # Specific files
 .env
+.env.local
+.env.*.local
 .DS_Store

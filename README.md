@@ -64,19 +64,6 @@ After cloning the repo, setup the app by following these steps.
   npm install
   ```
 
-- Create a `.env` file for local development
-
-  ```sh
-  cp .env.example .env
-  ```
-
-- Add Clerk env vars to the .env file. Get these from your Clerk account.
-  - `CLERK_PUBLISHABLE_KEY`
-  - `CLERK_SECRET_KEY`
-  - `CLERK_SIGN_IN_URL`
-  - `CLERK_SIGN_UP_URL`
-  - `CLERK_USER_PROFILE_URL`
-
 - Start any required Docker services, such as Postgres:
 
   ```sh
@@ -121,10 +108,10 @@ After cloning the repo, setup the app by following these steps.
 
   | Goal | Command(s) |
   | ---- | ---------- |
-  | Apply pending migrations | `npx prisma migrate dev` |
-  | Add a new model | Modify prisma/schema.prisma and run `npx prisma migrate dev` to generate a migration |
-  | Explore the db | `npx prisma studio` |
-  | Reset your db | `npx prisma migrate reset` |
+  | Apply pending migrations | `npm run prisma migrate dev` |
+  | Add a new model | Modify prisma/schema.prisma and run `npm run prisma migrate dev` to generate a migration |
+  | Explore the db | `npm run prisma studio` |
+  | Reset your db | `npm run prisma migrate reset` |
 
 - Debug server side code by placing a `debugger` in your code, open up Chrome, and go to `chrome://inspect`.
 

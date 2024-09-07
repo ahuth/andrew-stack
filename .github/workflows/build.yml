@@ -93,14 +93,11 @@ jobs:
       - name: 📥 Install deps
         run: npm install
 
-      - name: 🐳 Docker compose
+      - name: 🐳 Docker
         run: npm run docker
 
       - name: 🧑‍🎤 Install Playwright Browsers
         run: npx playwright install chromium --with-deps
-
-      - name: 🛠 Setup Database
-        run: npx prisma migrate reset --force
 
       - name: Build the Remix server
         run: npm run build
