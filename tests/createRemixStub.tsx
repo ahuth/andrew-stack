@@ -1,4 +1,4 @@
-import type {AgnosticRouteObject} from '@remix-run/router';
+import type {LoaderFunction, ActionFunction} from '@remix-run/node';
 import {createRemixStub} from '@remix-run/testing';
 import type {ReactNode} from 'react';
 
@@ -31,9 +31,9 @@ export {
 type Props = {
   children: ReactNode;
   /** Loader function providing data to the route. @see https://remix.run/docs/en/v1/route/loader */
-  loader?: AgnosticRouteObject['loader'];
+  loader?: LoaderFunction;
   /** Action function handling data mutation. @see https://remix.run/docs/en/v1/route/action */
-  action?: AgnosticRouteObject['action'];
+  action?: ActionFunction;
 };
 
 /**

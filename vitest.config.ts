@@ -12,6 +12,5 @@ export default defineConfig({
     include: ['./app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     restoreMocks: true,
     setupFiles: ['./tests/setupTests.ts'],
-    watchExclude: ['**/node_modules/**', '**/build/**', '**/postgres-data/**'],
   },
 });
