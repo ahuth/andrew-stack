@@ -3,6 +3,5 @@
     "quickfix.biome": "explicit"
   },
   "editor.defaultFormatter": "biomejs.biome",
-  "editor.formatOnSave": true,
-  "eslint.run": "onSave"
+  "editor.formatOnSave": true
 }

@@ -13,13 +13,12 @@
 ## Tech stack
 
 - Email/Password authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
+- [Biome](https://biomejs.dev/) for linting and formatting
 - [Conform](https://conform.guide/) for Progressively Enhanced and fully type safe forms
 - [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) containerization
-- [ESLint](https://eslint.org) for linting
 - [GitHub Actions](https://github.com/features/actions) for CI
 - [Playwright](https://playwright.dev/) for integration tests
 - [PostgreSQL](https://www.postgresql.org/) database
-- [Prettier](https://prettier.io) code formatting
 - [Prisma](https://prisma.io) database ORM
 - [shadcn/ui](https://ui.shadcn.com/) React component library
 - [Storybook](https://storybook.js.org/) component explorer
