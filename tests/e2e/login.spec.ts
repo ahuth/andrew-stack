@@ -8,6 +8,7 @@ test('can log in and out', async ({page}) => {
 
   // Login and find yourself on the logged in page.
   await login(page);
+  await page.getByRole('link', {name: 'View notes'}).click();
   await expect(page.getByRole('button', {name: 'Logout'})).toBeVisible();
 
   // Log back out.
