@@ -4,7 +4,7 @@
 # Base of the other stages. Only include things here that are used in the final
 # image (which shouldn't be much).
 #
-FROM node:20.17.0-bullseye-slim as base
+FROM node:22.8.0-bullseye-slim as base
 
 # set for base and all layer that inherit from it
 ENV NODE_ENV production

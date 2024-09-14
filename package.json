@@ -5,7 +5,7 @@
   "scripts": {
     "build": "run-s build:*",
     "build:remix": "remix vite:build --sourcemapServer",
-    "build:server": "esbuild ./server.ts --format=esm --packages=external --platform=node --outdir=build/express --sourcemap --target=node20",
+    "build:server": "esbuild ./server.ts --format=esm --packages=external --platform=node --outdir=build/express --sourcemap --target=node22",
     "dev": "NODE_ENV=development dotenvx run --convention=nextjs -- node --enable-source-maps --inspect ./build/express/server.js",
     "docker": "docker compose up --detach",
     "docker:down": "docker compose down",
