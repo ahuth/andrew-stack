@@ -9,8 +9,7 @@
     "dev": "NODE_ENV=development dotenvx run --convention=nextjs -- node --enable-source-maps --inspect ./build/express/server.js",
     "docker": "docker compose up --detach",
     "docker:down": "docker compose down",
-    "lint": "eslint --max-warnings 0 .",
-    "prettier": "prettier . --cache --check",
+    "lint": "biome check",
     "prisma": "dotenvx run --convention=nextjs -- prisma",
     "prod": "NODE_ENV=production node --enable-source-maps ./build/express/server.js",
     "routes": "remix routes",
@@ -24,7 +23,7 @@
     "test:axeOnly": "axe-storybook --build-dir ./storybook-static",
     "test:e2e": "npm run setup:e2e && npx playwright test",
     "types": "tsc --noEmit",
-    "validate": "run-p \"test -- --run\" lint prettier types"
+    "validate": "run-p \"test -- --run\" lint types"
   },
   "dependencies": {
     "@conform-to/react": "^1.1.5",
