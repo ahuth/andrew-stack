@@ -1,8 +1,0 @@
-node_modules
-postgres-data
-
-/build
-/playwright-report
-/public/build
-/storybook-static
-/test-results
