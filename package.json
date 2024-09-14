@@ -57,7 +57,6 @@
     "@biomejs/biome": "1.9.0",
     "@chanzuckerberg/axe-storybook-testing": "^8.2.0",
     "@dotenvx/dotenvx": "^1.14.0",
-    "@eslint/eslintrc": "^3.1.0",
     "@playwright/test": "^1.47.0",
     "@remix-run/dev": "^2.11.2",
     "@remix-run/testing": "^2.11.2",
