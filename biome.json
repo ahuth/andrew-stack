@@ -2,7 +2,27 @@
 	"$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
 	"vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
 	"files": { "ignoreUnknown": false, "ignore": [] },
-	"formatter": { "enabled": true, "indentStyle": "tab" },
+	"formatter": {
+		"enabled": true,
+		"useEditorconfig": true,
+		"formatWithErrors": false,
+		"indentStyle": "space",
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 80,
+		"attributePosition": "auto",
+		"bracketSpacing": true,
+		"ignore": [
+			"**/node_modules",
+			"**/postgres-data",
+			"./build",
+			"./playwright-report",
+			"./public/build",
+			"./storybook-static",
+			"./test-results",
+			"**/*"
+		]
+	},
 	"organizeImports": { "enabled": true },
 	"linter": {
 		"enabled": true,
@@ -123,7 +143,19 @@
 		},
 		"ignore": ["**/build/"]
 	},
-	"javascript": { "formatter": { "quoteStyle": "double" } },
+	"javascript": {
+		"formatter": {
+			"jsxQuoteStyle": "double",
+			"quoteProperties": "asNeeded",
+			"trailingCommas": "all",
+			"semicolons": "asNeeded",
+			"arrowParentheses": "always",
+			"bracketSameLine": false,
+			"quoteStyle": "single",
+			"attributePosition": "auto",
+			"bracketSpacing": false
+		}
+	},
 	"overrides": [
 		{
 			"include": ["app/**/*.{spec,test}.{js,jsx,ts,tsx}"],
