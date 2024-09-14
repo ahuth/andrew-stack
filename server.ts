@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import {
-  createRequestHandler,
   type GetLoadContextFunction,
+  createRequestHandler,
 } from '@remix-run/express';
 import compression from 'compression';
 import express from 'express';

@@ -1,5 +1,5 @@
-import {useMatchesData} from './useMatchesData';
 import type {User} from '~/models/user.server';
+import {useMatchesData} from './useMatchesData';
 
 export function useUser(): User {
   const maybeUser = useOptionalUser();

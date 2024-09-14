@@ -1,4 +1,4 @@
-import {json, type LoaderFunctionArgs} from '@remix-run/node';
+import {type LoaderFunctionArgs, json} from '@remix-run/node';
 import {Form, Link, NavLink, Outlet, useLoaderData} from '@remix-run/react';
 import clsx from 'clsx';
 import {Button} from '~/components/ui/button';

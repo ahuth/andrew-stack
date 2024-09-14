@@ -1,5 +1,5 @@
 import {init, parse} from 'es-module-lexer';
-import {defineConfig, type Plugin} from 'vite';
+import {type Plugin, defineConfig} from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({

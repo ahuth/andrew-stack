@@ -1,4 +1,4 @@
-import {json, type LoaderFunctionArgs} from '@remix-run/node';
+import {type LoaderFunctionArgs, json} from '@remix-run/node';
 import {
   Links,
   Meta,
@@ -46,6 +46,8 @@ export default function App() {
           //
           // Using `dangerouslySetInnerHTML` bypasses React's XSS protection, so don't pass user
           // input into here.
+          //
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Don't pass user input here.
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
           }}

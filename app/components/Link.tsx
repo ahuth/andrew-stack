@@ -1,4 +1,4 @@
-import {Link as RemixLink, type LinkProps as Props} from '@remix-run/react';
+import {type LinkProps as Props, Link as RemixLink} from '@remix-run/react';
 import clsx from 'clsx';
 
 /**

@@ -1,6 +1,6 @@
 import {createCookieSessionStorage, redirect} from '@remix-run/node';
 import {assert} from 'smart-invariant';
-import {getUserById, type User} from '~/models/user.server';
+import {type User, getUserById} from '~/models/user.server';
 
 assert(process.env.SESSION_SECRET, 'SESSION_SECRET must be set');
 

@@ -1,11 +1,11 @@
-import {useForm, getFormProps} from '@conform-to/react';
+import {getFormProps, useForm} from '@conform-to/react';
 import {parseWithZod} from '@conform-to/zod';
 import {
-  json,
-  redirect,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
   type MetaFunction,
+  json,
+  redirect,
 } from '@remix-run/node';
 import {Form, useActionData, useSearchParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
@@ -62,7 +62,7 @@ export async function action({request}: ActionFunctionArgs) {
 
   return createUserSession({
     redirectTo,
-    remember: remember === 'on' ? true : false,
+    remember: remember === 'on',
     request,
     userId: user.id,
   });

@@ -1,8 +1,8 @@
 import {PassThrough} from 'node:stream';
 import {
-  createReadableStreamFromReadable,
   type AppLoadContext,
   type EntryContext,
+  createReadableStreamFromReadable,
 } from '@remix-run/node';
 import {RemixServer} from '@remix-run/react';
 import {isbot} from 'isbot';
@@ -51,6 +51,7 @@ export default function handleRequest(
           reject(error);
         },
         onError(error: unknown) {
+          // biome-ignore lint/style/noParameterAssign: This is fine.
           responseStatusCode = 500;
           console.error(error);
         },

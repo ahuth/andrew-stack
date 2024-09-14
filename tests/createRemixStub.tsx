@@ -1,4 +1,4 @@
-import type {LoaderFunction, ActionFunction} from '@remix-run/node';
+import type {ActionFunction, LoaderFunction} from '@remix-run/node';
 import {createRemixStub} from '@remix-run/testing';
 import type {ReactNode} from 'react';
 
