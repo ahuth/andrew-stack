@@ -1,6 +1,7 @@
 import {FlatCompat} from '@eslint/eslintrc';
 import js from '@eslint/js';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import react from 'eslint-plugin-react';
 import vitest from 'eslint-plugin-vitest';
 import typescript from 'typescript-eslint';
@@ -124,4 +125,7 @@ export default [
       'vitest/no-focused-tests': 'error',
     },
   },
+
+  // Prettier. This must be after all other configs.
+  prettierRecommended,
 ];

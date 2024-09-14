@@ -10,7 +10,6 @@
     "docker": "docker compose up --detach",
     "docker:down": "docker compose down",
     "lint": "eslint --max-warnings 0 .",
-    "prettier": "prettier . --cache --check",
     "prisma": "dotenvx run --convention=nextjs -- prisma",
     "prod": "NODE_ENV=production node --enable-source-maps ./build/express/server.js",
     "routes": "remix routes",
@@ -24,7 +23,7 @@
     "test:axeOnly": "axe-storybook --build-dir ./storybook-static",
     "test:e2e": "npm run setup:e2e && npx playwright test",
     "types": "tsc --noEmit",
-    "validate": "run-p \"test -- --run\" lint prettier types"
+    "validate": "run-p \"test -- --run\" lint types"
   },
   "dependencies": {
     "@conform-to/react": "^1.1.5",
@@ -81,8 +80,10 @@
     "es-module-lexer": "^1.5.4",
     "esbuild": "^0.23.1",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.35.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-vitest": "^0.5.4",

@@ -6,14 +6,3 @@ postgres-data
 /public/build
 /storybook-static
 /test-results
-
-# Ignore everything except JS/TS files.
-# Based on https://stackoverflow.com/a/70715829/458193
-*
-!*.cjs
-!*.js
-!*.jsx
-!*.mjs
-!*.ts
-!*.tsx
-!*/
