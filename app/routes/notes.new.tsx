@@ -71,7 +71,7 @@ export default function NewNotePage() {
           required
         />
         {fields.title.errors && (
-          <p className="text-sm text-red-600" id="title-error">
+          <p className="text-red-600 text-sm" id="title-error">
             {fields.title.errors[0]}
           </p>
         )}
@@ -89,7 +89,7 @@ export default function NewNotePage() {
           rows={8}
         />
         {fields.body.errors && (
-          <p className="text-sm text-red-600" id="body-error">
+          <p className="text-red-600 text-sm" id="body-error">
             {fields.body.errors[0]}
           </p>
         )}

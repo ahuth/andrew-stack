@@ -108,7 +108,7 @@ export default function Join() {
               type="email"
             />
             {fields.email.errors && (
-              <p className="text-sm text-red-600" id="email-error">
+              <p className="text-red-600 text-sm" id="email-error">
                 {fields.email.errors[0]}
               </p>
             )}
@@ -129,7 +129,7 @@ export default function Join() {
               type="password"
             />
             {fields.password.errors && (
-              <p className="text-sm text-red-600" id="password-error">
+              <p className="text-red-600 text-sm" id="password-error">
                 {fields.password.errors[0]}
               </p>
             )}

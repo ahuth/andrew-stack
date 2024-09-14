@@ -22,6 +22,9 @@
       "recommended": true,
       "style": {
         "useTemplate": "off"
+      },
+      "nursery": {
+        "useSortedClasses": "error"
       }
     }
   },

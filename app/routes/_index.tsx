@@ -31,7 +31,7 @@ export default function Index() {
         </div>
       </nav>
       <main className="mx-auto max-w-3xl py-12 sm:py-24">
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-center lg:text-5xl">
+        <h1 className="font-extrabold text-4xl tracking-tight sm:text-center lg:text-5xl">
           Keep track of notes...
         </h1>
         <p className="mt-6 sm:text-center">

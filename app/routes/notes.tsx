@@ -32,7 +32,7 @@ export default function NotesPage() {
 
       <main className="flex h-full bg-white">
         <div className="h-full w-80 border-r bg-gray-50">
-          <Link className="block p-4 text-xl text-blue-600" to="new">
+          <Link className="block p-4 text-blue-600 text-xl" to="new">
             + New Note
           </Link>
 
